@@ -184,6 +184,8 @@ The v2.0 pipeline scrapes 9 authoritative sources (6 new + 3 from v1):
 
 ### Automated Pipeline
 
+> **Source code:** [cmmc-data-pipeline](https://github.com/NathanMaine/cmmc-data-pipeline) — standalone repo with scrapers, processors, and CLI tools
+
 The v2.0 data pipeline is fully automated and reproducible:
 
 ```
@@ -436,7 +438,7 @@ cmmc-compliance-ai-model/
 - **Training**: [Unsloth](https://github.com/unslothai/unsloth) + [HuggingFace TRL](https://github.com/huggingface/trl) + [PEFT](https://github.com/huggingface/peft) — QLoRA fine-tuning
 - **Quantization**: [llama.cpp](https://github.com/ggerganov/llama.cpp) — GGUF format (q4_k_m / q5_k_m)
 - **Inference**: [Ollama](https://ollama.ai) — Local deployment with OpenAI-compatible API
-- **Data Pipeline**: Python + [datasketch](https://github.com/ekzhu/datasketch) + [xxhash](https://github.com/Cyan4973/xxHash) — Scraping, conversion, deduplication
+- **Data Pipeline**: [cmmc-data-pipeline](https://github.com/NathanMaine/cmmc-data-pipeline) — Python + [datasketch](https://github.com/ekzhu/datasketch) + [xxhash](https://github.com/Cyan4973/xxHash) — Scraping, conversion, deduplication
 - **Data Sources**: NIST OSCAL (GitHub), eCFR API, Federal Register API, DoD PDFs
 - **Local Training Hardware**: NVIDIA RTX 5000 Ada (16 GB VRAM)
 - **Cloud Training Hardware**: NVIDIA A100 80GB SXM ([RunPod](https://www.runpod.io))
