@@ -46,9 +46,9 @@ All four models share the same compliance knowledge base and training data. The 
 | Model | Hugging Face | Size | Status |
 |-------|-------------|------|--------|
 | **cmmc-expert-7b-v2.0** | [Download GGUF](https://huggingface.co/Nathan-Maine/cmmc-expert-7b-v2.0) | 5.1 GB | Available |
-| **cmmc-expert-14b-v2.0** | [Download GGUF](https://huggingface.co/Nathan-Maine/cmmc-expert-14b-v2.0) | ~10 GB | Training |
-| **cmmc-expert-32b-v2.0** | [Download GGUF](https://huggingface.co/Nathan-Maine/cmmc-expert-32b-v2.0) | ~19 GB | Queued |
-| **cmmc-expert-72b-v2.0** | [Download GGUF](https://huggingface.co/Nathan-Maine/cmmc-expert-72b-v2.0) | ~42 GB | Queued |
+| **cmmc-expert-14b-v2.0** | [Download GGUF](https://huggingface.co/Nathan-Maine/cmmc-expert-14b-v2.0) | 9.8 GB | Available |
+| **cmmc-expert-32b-v2.0** | [Download GGUF](https://huggingface.co/Nathan-Maine/cmmc-expert-32b-v2.0) | 18.9 GB | Available |
+| **cmmc-expert-72b-v2.0** | [Download GGUF](https://huggingface.co/Nathan-Maine/cmmc-expert-72b-v2.0) | ~42 GB | Training |
 
 ### Version 1.0 (Legacy)
 
@@ -129,8 +129,8 @@ All models trained using QLoRA (Quantized Low-Rank Adaptation) — base weights 
 | **Precision** | bf16 | bf16 | bf16 | bf16 |
 | **Optimizer** | AdamW 8-bit | AdamW 8-bit | AdamW 8-bit | AdamW 8-bit |
 | **Packing** | Enabled | Enabled | Enabled | Enabled |
-| **Training time** | ~3.1 hours | Training... | Queued | Queued |
-| **Final eval loss** | 1.142 | — | — | — |
+| **Training time** | ~3.1 hours | ~6.5 hours | ~9.6 hours | Training |
+| **Final eval loss** | 1.142 | 1.144 | 1.073 | — |
 
 ### Evaluation Results (v2.0)
 
@@ -165,7 +165,36 @@ All models showed continuous improvement across training with no overfitting obs
 | LoRA Target Modules | 4 | 7 | +75% coverage |
 | Data Sources | 5 | 11 | +6 new |
 
-*14B, 32B, and 72B results will be added as training completes.*
+**14B v2.0 Training Metrics:**
+
+| Metric | Value |
+|--------|-------|
+| Final Train Loss | 1.009 |
+| Final Eval Loss | **1.144** |
+| Mean Token Accuracy | 77.7% |
+| Total Steps | 561 |
+| Training Time | ~6.5 hours |
+
+**32B v2.0 Training Metrics:**
+
+| Metric | Value |
+|--------|-------|
+| Final Train Loss | 1.005 |
+| Final Eval Loss | **1.073** |
+| Best Mean Token Accuracy | 77.9% |
+| Total Steps | 561 |
+| Training Time | ~9.6 hours |
+
+**v2.0 Cross-Model Comparison:**
+
+| Metric | 7B | 14B | 32B |
+|--------|------|------|------|
+| Final Eval Loss | 1.142 | 1.144 | **1.073** |
+| Token Accuracy | 76.5% | 77.7% | 77.9% |
+| Training Time | 3.1h | 6.5h | 9.6h |
+| GGUF Size | 5.1 GB | 9.8 GB | 18.9 GB |
+
+*72B results will be added when training completes.*
 
 ---
 
@@ -464,7 +493,9 @@ cmmc-compliance-ai-model/
 - [x] v2.0 — Automated scraping pipeline (6 new sources)
 - [x] v2.0 — Expanded training data (18,747 examples from 11 sources)
 - [x] v2.0 — 7B retrained and published on v2.0 data
-- [ ] v2.0 — 14B, 32B, 72B retraining (in progress)
+- [x] v2.0 — 14B retrained and published on v2.0 data
+- [x] v2.0 — 32B retrained and published on v2.0 data
+- [ ] v2.0 — 72B retraining (in progress)
 - [ ] RAG integration — Live document retrieval for real-time regulatory updates
 - [ ] Agent integration — Deploy as a compliance agent with tool use (document search, SSP generation, gap analysis automation)
 - [ ] FedRAMP baselines, CIS Controls, and ITAR coverage
