@@ -4,9 +4,9 @@
 
 Built to answer the question: *Can a small team deploy a domain-specific AI compliance advisor that runs entirely on-premises — no cloud, no API fees, no CUI exposure?*
 
-**Yes. Four model sizes from 5 GB to 42 GB — from laptop to workstation to server.**
+**Yes. Four model sizes from 5 GB to 45 GB — from laptop to workstation to server.**
 
-> **Current release:** Version 2.0 (February 2026) — Expanded training data (18,747 examples from 11 sources), all four model sizes retraining
+> **Current release:** Version 2.0 (February 2026) — All four models trained and published. Expanded training data (18,747 examples from 11 sources).
 >
 > **v1.0 models** remain available on HuggingFace for existing deployments
 
@@ -24,12 +24,12 @@ Commercial LLMs (GPT-4, Claude) are powerful but introduce data residency concer
 
 All four models share the same compliance knowledge base and training data. The tiered approach allows organizations to deploy the model that best matches their available hardware.
 
-| Model | Parameters | GGUF Size | Quantization | Inference Speed | Hardware Required |
-|-------|-----------|-----------|--------------|-----------------|-------------------|
-| **cmmc-expert-7b** | 7.6B | 5.1 GB | q5_k_m | ~1-2 sec | 8 GB VRAM (consumer GPU) |
-| **cmmc-expert-14b** | 14.7B | ~10 GB | q5_k_m | ~3-5 sec | 12 GB VRAM |
-| **cmmc-expert-32b** | 32.5B | 18.5 GB | q4_k_m | ~30-60 sec | 24 GB VRAM or 32 GB RAM |
-| **cmmc-expert-72b** | 72.7B | 45 GB | q4_k_m | ~2-4 min | 48 GB VRAM or 64 GB RAM |
+| Model | Parameters | GGUF Size | Quantization | Eval Loss | Hardware Required |
+|-------|-----------|-----------|--------------|-----------|-------------------|
+| **cmmc-expert-7b** | 7.6B | 5.1 GB | q5_k_m | 1.142 | 8 GB VRAM (consumer GPU) |
+| **cmmc-expert-14b** | 14.7B | 9.8 GB | q5_k_m | 1.144 | 12 GB VRAM |
+| **cmmc-expert-32b** | 32.5B | 18.9 GB | q4_k_m | 1.073 | 24 GB VRAM or 32 GB RAM |
+| **cmmc-expert-72b** | 72.7B | 45 GB | q4_k_m | **1.048** | 48 GB VRAM or 64 GB RAM |
 
 **Base models**: [Qwen2.5 Instruct](https://huggingface.co/Qwen) (abliterated variant by [huihui-ai](https://huggingface.co/huihui-ai)) — 7B, 14B, 32B, 72B
 
@@ -75,141 +75,9 @@ curl http://localhost:11434/v1/chat/completions \
 
 ---
 
-## Version 1.0 — Current Release
-
-**Released:** February 11, 2026
-
-### Training Data
-
-**13,434 training + 3,472 validation examples** (~3.3 million tokens) assembled from 5 curated sources:
-
-| Source | Records | % | Coverage |
-|--------|---------|---|----------|
-| NIST Cybersecurity Publications | 6,372 | 47.4% | SP 800-171, 800-172, 800-53, 800-37, CSF, and related guidance |
-| CMMC Primary | 4,787 | 35.6% | CMMC 2.0 requirements, controls, implementation guidance, assessment procedures |
-| CMMC Balanced | 994 | 7.4% | Curated subset ensuring proportional coverage across all CMMC domains |
-| HIPAA Compliance | 961 | 7.2% | Security Rule requirements, technical safeguards, enforcement guidance |
-| CMMC Core | 320 | 2.4% | High-priority practices and assessment-critical requirements |
-
-**Data quality pipeline:**
-1. **Format conversion** — Raw text and embeddings converted to chat-style instruction/response pairs with a unified compliance expert system prompt
-2. **Quality filtering** — Removed entries <100 chars, table-heavy fragments, OCR artifacts, and garbled text
-3. **Relevance filtering** — NIST data reduced from 424,729 raw records to 6,372 CMMC-relevant examples
-4. **Deduplication** — Exact dedup via xxhash, near-dedup via MinHash LSH (Jaccard threshold 0.8)
-5. **Validation split** — 80/20 stratified split maintaining source distribution
-
-### Framework Coverage (v1.0)
-
-| Framework | Version | Coverage |
-|-----------|---------|----------|
-| **CMMC 2.0** | 32 CFR Part 170 | All three levels: 17 L1 practices, 110 L2 practices, 134 L3 practices. Assessment methodology, scoping guidance, POA&M requirements |
-| **NIST SP 800-171** | Rev. 2 | 110 security requirements across 14 families (CMMC Level 2 foundation) |
-| **NIST SP 800-172** | Original | Enhanced security requirements for critical CUI programs (CMMC Level 3 delta) |
-| **NIST SP 800-53** | Rev. 5 | Full catalog of 1,189 controls across 20 families (cross-mapping reference) |
-| **NIST SP 800-37** | Rev. 2 | Risk Management Framework steps, authorization process, continuous monitoring |
-| **NIST CSF** | 1.1 + 2.0 | Govern, Identify, Protect, Detect, Respond, Recover functions and implementation tiers |
-| **HIPAA Security Rule** | Current | Administrative, physical, and technical safeguards; breach notification; enforcement guidance |
-| **DFARS Clauses** | Current | 252.204-7012, 7019, 7020, 7021 — contract-level CUI protection requirements |
-
-### Training Configuration (v2.0)
-
-All models trained using QLoRA (Quantized Low-Rank Adaptation) — base weights frozen in 4-bit NF4, trainable adapter layers injected into all 7 transformer projection modules. Trained on NVIDIA A100-SXM4-80GB via RunPod.
-
-| Parameter | 7B | 14B | 32B | 72B |
-|-----------|-----|------|------|------|
-| **GPU** | A100 80GB SXM | A100 80GB SXM | A100 80GB SXM | A100 80GB SXM |
-| **LoRA rank** | 64 | 16 | 32 | 16 |
-| **LoRA alpha** | 128 | 32 | 64 | 32 |
-| **LoRA dropout** | 0.05 | 0.05 | 0.05 | 0.05 |
-| **Target modules** | All 7 | All 7 | All 7 | All 7 |
-| **Effective batch size** | 32 | 16 | 16 | 16 |
-| **Learning rate** | 2e-4 | 1e-4 | 1e-4 | 5e-5 |
-| **Epochs** | 3 | 3 | 3 | 3 |
-| **Max sequence length** | 2048 | 2048 | 2048 | 2048 |
-| **Precision** | bf16 | bf16 | bf16 | bf16 |
-| **Optimizer** | AdamW 8-bit | AdamW 8-bit | AdamW 8-bit | AdamW 8-bit |
-| **Packing** | Enabled | Enabled | Enabled | Enabled |
-| **Training time** | ~3.1 hours | ~6.5 hours | ~9.6 hours | ~13.0 hours |
-| **Final eval loss** | 1.142 | 1.144 | 1.073 | 1.048 |
-
-### Evaluation Results (v2.0)
-
-All models showed continuous improvement across training with no overfitting observed.
-
-**7B v2.0 Training Metrics:**
-
-| Metric | Value |
-|--------|-------|
-| Final Train Loss | 1.030 |
-| Final Eval Loss | **1.142** |
-| Mean Token Accuracy | 76.5% |
-| Total Steps | 282 |
-| Tokens Processed | ~18M |
-
-**7B v2.0 Training Curve:**
-
-| Step | Epoch | Train Loss | Token Accuracy |
-|------|-------|------------|----------------|
-| 100 | ~1.1 | 1.297 | 71.4% |
-| 150 | ~1.6 | 1.144 | 74.4% |
-| 200 | ~2.0 | 1.101 | 75.4% |
-| 250 | ~2.7 | 1.022 | 76.7% |
-| 282 | 3.0 | 1.030 | 76.5% |
-
-**v1.0 vs v2.0 Comparison (7B):**
-
-| Metric | v1.0 | v2.0 | Change |
-|--------|------|------|--------|
-| Training Examples | 13,434 | 14,906 | +11% |
-| Eval Loss | 1.241 | 1.142 | -8% (improved) |
-| LoRA Target Modules | 4 | 7 | +75% coverage |
-| Data Sources | 5 | 11 | +6 new |
-
-**14B v2.0 Training Metrics:**
-
-| Metric | Value |
-|--------|-------|
-| Final Train Loss | 1.009 |
-| Final Eval Loss | **1.144** |
-| Mean Token Accuracy | 77.7% |
-| Total Steps | 561 |
-| Training Time | ~6.5 hours |
-
-**32B v2.0 Training Metrics:**
-
-| Metric | Value |
-|--------|-------|
-| Final Train Loss | 1.005 |
-| Final Eval Loss | **1.073** |
-| Best Mean Token Accuracy | 77.9% |
-| Total Steps | 561 |
-| Training Time | ~9.6 hours |
-
-**72B v2.0 Training Metrics:**
-
-| Metric | Value |
-|--------|-------|
-| Final Train Loss | 0.966 |
-| Final Eval Loss | **1.048** |
-| Average Train Loss | 1.155 |
-| Total Steps | 564 |
-| Training Time | ~13.0 hours (46,890 seconds) |
-| Model Loading | Unsloth (memory-efficient 4-bit for 72B on single A100-80GB) |
-
-**v2.0 Cross-Model Comparison:**
-
-| Metric | 7B | 14B | 32B | 72B |
-|--------|------|------|------|------|
-| Final Eval Loss | 1.142 | 1.144 | 1.073 | **1.048** |
-| Token Accuracy | 76.5% | 77.7% | 77.9% | — |
-| Training Time | 3.1h | 6.5h | 9.6h | 13.0h |
-| GGUF Size | 5.1 GB | 9.8 GB | 18.9 GB | 45 GB |
-
-The 72B model achieves the lowest eval loss in the suite (1.048), demonstrating that model scale continues to improve compliance reasoning quality even with the same training data. All four models show no signs of overfitting across 3 epochs.
-
----
-
 ## Version 2.0 — Current Release
+
+**Released:** February 2026
 
 Version 2.0 significantly expands the training corpus with authoritative source material scraped directly from government APIs and official publications. An automated data pipeline handles scraping, conversion, quality filtering, deduplication, and versioning with full reproducibility.
 
@@ -218,7 +86,8 @@ Version 2.0 significantly expands the training corpus with authoritative source 
 - **40% more training data** — 18,747 total examples (up from 16,906 in v1.0)
 - **6 new authoritative sources** — NIST SP 800-53 Rev. 5, NIST CSF 2.0, eCFR regulations, Federal Register, DoD PDFs, NIST SP 800-171 Rev. 3
 - **Expanded LoRA coverage** — All 7 transformer modules targeted across all model sizes
-- **Improved eval loss** — 7B: 1.142 (down from 1.241 in v1.0)
+- **Best eval loss: 1.048** — 72B flagship model achieves the lowest loss in the suite
+- **Improved across the board** — 7B eval loss improved from 1.241 (v1.0) to 1.142 (v2.0)
 - **Automated data pipeline** — Reproducible scraping, filtering, and deduplication via [cmmc-data-pipeline](https://github.com/NathanMaine/cmmc-data-pipeline)
 
 The regulatory landscape changed substantially since the v1.0 training data was assembled. Version 2.0 addresses these gaps:
@@ -232,7 +101,7 @@ The regulatory landscape changed substantially since the v1.0 training data was 
 | **NIST SP 800-172 Rev. 3** | 2025 (FPD) | Enhanced CUI requirements, final public draft. CMMC Level 3 delta |
 | **DoD Assessment Guides** | 2025 | Official L2/L3 assessment procedures, scoping guides, ODP values document |
 
-### v2.0 Training Data
+### Training Data
 
 **14,906 training + 3,841 validation examples (~4.5M tokens)** assembled from 11 sources:
 
@@ -302,7 +171,7 @@ The v2.0 data pipeline ([cmmc-data-pipeline](https://github.com/NathanMaine/cmmc
 
 The pipeline supports both full scrapes and incremental updates. Each run creates a versioned snapshot that can be inspected, diffed, or rolled back before merging into the training dataset.
 
-### v2.0 Pipeline Results (Final — v004)
+### Pipeline Results (Final — v004)
 
 | Step | Result |
 |------|--------|
@@ -314,11 +183,60 @@ The pipeline supports both full scrapes and incremental updates. Each run create
 | Validated | **PASSED** — 0 format errors, avg answer length 1,322 chars |
 | Merged with v1.0 | **18,747 total** (14,906 train + 3,841 validation) |
 
+### Training Configuration
+
+All models trained using QLoRA (Quantized Low-Rank Adaptation) — base weights frozen in 4-bit NF4, trainable adapter layers injected into all 7 transformer projection modules. Trained on NVIDIA A100-SXM4-80GB via RunPod.
+
+| Parameter | 7B | 14B | 32B | 72B |
+|-----------|-----|------|------|------|
+| **GPU** | A100 80GB SXM | A100 80GB SXM | A100 80GB SXM | A100 80GB SXM |
+| **LoRA rank** | 64 | 16 | 32 | 16 |
+| **LoRA alpha** | 128 | 32 | 64 | 32 |
+| **LoRA dropout** | 0.05 | 0.05 | 0.05 | 0.05 |
+| **Target modules** | All 7 | All 7 | All 7 | All 7 |
+| **Effective batch size** | 32 | 16 | 16 | 16 |
+| **Learning rate** | 2e-4 | 1e-4 | 1e-4 | 5e-5 |
+| **Epochs** | 3 | 3 | 3 | 3 |
+| **Max sequence length** | 2048 | 2048 | 2048 | 2048 |
+| **Precision** | bf16 | bf16 | bf16 | bf16 |
+| **Optimizer** | AdamW 8-bit | AdamW 8-bit | AdamW 8-bit | AdamW 8-bit |
+| **Packing** | Enabled | Enabled | Enabled | Enabled |
+| **Training time** | ~3.1 hours | ~6.5 hours | ~9.6 hours | ~13.0 hours |
+| **Final eval loss** | 1.142 | 1.144 | 1.073 | 1.048 |
+
+The 72B model used [Unsloth](https://github.com/unslothai/unsloth) for memory-efficient 4-bit loading, enabling QLoRA fine-tuning on a single A100-80GB without multi-GPU setups.
+
+### Evaluation Results
+
+All models showed continuous improvement across training with no overfitting observed.
+
+**Per-Model Training Metrics:**
+
+| Metric | 7B | 14B | 32B | 72B |
+|--------|------|------|------|------|
+| **Final Eval Loss** | 1.142 | 1.144 | 1.073 | **1.048** |
+| **Final Train Loss** | 1.030 | 1.009 | 1.005 | 0.966 |
+| **Token Accuracy** | 76.5% | 77.7% | 77.9% | — |
+| **Total Steps** | 282 | 561 | 561 | 564 |
+| **Training Time** | 3.1h | 6.5h | 9.6h | 13.0h |
+| **GGUF Size** | 5.1 GB | 9.8 GB | 18.9 GB | 45 GB |
+
+The 72B model achieves the lowest eval loss in the suite (1.048), demonstrating that model scale continues to improve compliance reasoning quality even with the same training data.
+
+**v1.0 vs v2.0 Comparison (7B):**
+
+| Metric | v1.0 | v2.0 | Change |
+|--------|------|------|--------|
+| Training Examples | 13,434 | 14,906 | +11% |
+| Eval Loss | 1.241 | 1.142 | -8% (improved) |
+| LoRA Target Modules | 4 | 7 | +75% coverage |
+| Data Sources | 5 | 11 | +6 new |
+
 ---
 
 ## Compliance Framework Coverage
 
-### Full Coverage Map (v1.0 + v2.0)
+### Full Coverage Map (v1.0 + v2.0 Combined)
 
 | Framework | v1.0 | v2.0 Adds |
 |-----------|------|-----------|
@@ -451,9 +369,9 @@ This model suite was designed for environments where data sovereignty matters:
 
 | Model | GPU Required | Approx. Time |
 |-------|-------------|--------------|
-| **7B** | 16 GB VRAM (e.g., RTX 5000 Ada) | ~3.2 hours |
-| **14B** | 40+ GB VRAM (e.g., A100 40GB) | ~6 hours |
-| **32B** | 80 GB VRAM (e.g., A100 80GB) | ~10 hours |
+| **7B** | 16 GB VRAM (e.g., RTX 5000 Ada) | ~3.1 hours |
+| **14B** | 40+ GB VRAM (e.g., A100 40GB) | ~6.5 hours |
+| **32B** | 80 GB VRAM (e.g., A100 80GB) | ~9.6 hours |
 | **72B** | 80 GB VRAM (e.g., A100 80GB) | ~13.0 hours |
 
 **OS**: Linux, macOS, Windows (WSL2)
@@ -517,11 +435,11 @@ cmmc-compliance-ai-model/
 
 - **Base Models**: [Qwen2.5 Instruct](https://huggingface.co/Qwen) (abliterated variant) — 7B, 14B, 32B, 72B
 - **Training**: [HuggingFace TRL](https://github.com/huggingface/trl) + [PEFT](https://github.com/huggingface/peft) + [bitsandbytes](https://github.com/bitsandbytes-foundation/bitsandbytes) — QLoRA fine-tuning
+- **72B Training**: [Unsloth](https://github.com/unslothai/unsloth) — Memory-efficient model loading for 72B on single GPU
 - **Quantization**: [llama.cpp](https://github.com/ggerganov/llama.cpp) — GGUF format (q4_k_m / q5_k_m)
 - **Inference**: [Ollama](https://ollama.ai) — Local deployment with OpenAI-compatible API
 - **Data Pipeline**: [cmmc-data-pipeline](https://github.com/NathanMaine/cmmc-data-pipeline) — Python + [datasketch](https://github.com/ekzhu/datasketch) + [xxhash](https://github.com/Cyan4973/xxHash) — Scraping, conversion, deduplication
 - **Data Sources**: NIST OSCAL (GitHub), eCFR API, Federal Register API, DoD PDFs
-- **Local Training Hardware**: NVIDIA RTX 5000 Ada (16 GB VRAM)
 - **Cloud Training Hardware**: NVIDIA A100 80GB SXM ([RunPod](https://www.runpod.io))
 
 ---
