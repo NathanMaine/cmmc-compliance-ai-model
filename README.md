@@ -29,7 +29,7 @@ All four models share the same compliance knowledge base and training data. The 
 | **cmmc-expert-7b** | 7.6B | 5.1 GB | q5_k_m | ~1-2 sec | 8 GB VRAM (consumer GPU) |
 | **cmmc-expert-14b** | 14.7B | ~10 GB | q5_k_m | ~3-5 sec | 12 GB VRAM |
 | **cmmc-expert-32b** | 32.5B | 18.5 GB | q4_k_m | ~30-60 sec | 24 GB VRAM or 32 GB RAM |
-| **cmmc-expert-72b** | 72.7B | 44.2 GB | q4_k_m | ~2-4 min | 48 GB VRAM or 64 GB RAM |
+| **cmmc-expert-72b** | 72.7B | 45 GB | q4_k_m | ~2-4 min | 48 GB VRAM or 64 GB RAM |
 
 **Base models**: [Qwen2.5 Instruct](https://huggingface.co/Qwen) (abliterated variant by [huihui-ai](https://huggingface.co/huihui-ai)) — 7B, 14B, 32B, 72B
 
@@ -48,7 +48,7 @@ All four models share the same compliance knowledge base and training data. The 
 | **cmmc-expert-7b-v2.0** | [Download GGUF](https://huggingface.co/Nathan-Maine/cmmc-expert-7b-v2.0) | 5.1 GB | Available |
 | **cmmc-expert-14b-v2.0** | [Download GGUF](https://huggingface.co/Nathan-Maine/cmmc-expert-14b-v2.0) | 9.8 GB | Available |
 | **cmmc-expert-32b-v2.0** | [Download GGUF](https://huggingface.co/Nathan-Maine/cmmc-expert-32b-v2.0) | 18.9 GB | Available |
-| **cmmc-expert-72b-v2.0** | [Download GGUF](https://huggingface.co/Nathan-Maine/cmmc-expert-72b-v2.0) | ~42 GB | Training |
+| **cmmc-expert-72b-v2.0** | [Download GGUF](https://huggingface.co/Nathan-Maine/cmmc-expert-72b-v2.0) | 45 GB | Available |
 
 ### Version 1.0 (Legacy)
 
@@ -129,8 +129,8 @@ All models trained using QLoRA (Quantized Low-Rank Adaptation) — base weights 
 | **Precision** | bf16 | bf16 | bf16 | bf16 |
 | **Optimizer** | AdamW 8-bit | AdamW 8-bit | AdamW 8-bit | AdamW 8-bit |
 | **Packing** | Enabled | Enabled | Enabled | Enabled |
-| **Training time** | ~3.1 hours | ~6.5 hours | ~9.6 hours | Training |
-| **Final eval loss** | 1.142 | 1.144 | 1.073 | — |
+| **Training time** | ~3.1 hours | ~6.5 hours | ~9.6 hours | ~13.0 hours |
+| **Final eval loss** | 1.142 | 1.144 | 1.073 | 1.048 |
 
 ### Evaluation Results (v2.0)
 
@@ -185,16 +185,27 @@ All models showed continuous improvement across training with no overfitting obs
 | Total Steps | 561 |
 | Training Time | ~9.6 hours |
 
+**72B v2.0 Training Metrics:**
+
+| Metric | Value |
+|--------|-------|
+| Final Train Loss | 0.966 |
+| Final Eval Loss | **1.048** |
+| Average Train Loss | 1.155 |
+| Total Steps | 564 |
+| Training Time | ~13.0 hours (46,890 seconds) |
+| Model Loading | Unsloth (memory-efficient 4-bit for 72B on single A100-80GB) |
+
 **v2.0 Cross-Model Comparison:**
 
-| Metric | 7B | 14B | 32B |
-|--------|------|------|------|
-| Final Eval Loss | 1.142 | 1.144 | **1.073** |
-| Token Accuracy | 76.5% | 77.7% | 77.9% |
-| Training Time | 3.1h | 6.5h | 9.6h |
-| GGUF Size | 5.1 GB | 9.8 GB | 18.9 GB |
+| Metric | 7B | 14B | 32B | 72B |
+|--------|------|------|------|------|
+| Final Eval Loss | 1.142 | 1.144 | 1.073 | **1.048** |
+| Token Accuracy | 76.5% | 77.7% | 77.9% | — |
+| Training Time | 3.1h | 6.5h | 9.6h | 13.0h |
+| GGUF Size | 5.1 GB | 9.8 GB | 18.9 GB | 45 GB |
 
-*72B results will be added when training completes.*
+The 72B model achieves the lowest eval loss in the suite (1.048), demonstrating that model scale continues to improve compliance reasoning quality even with the same training data. All four models show no signs of overfitting across 3 epochs.
 
 ---
 
@@ -443,7 +454,7 @@ This model suite was designed for environments where data sovereignty matters:
 | **7B** | 16 GB VRAM (e.g., RTX 5000 Ada) | ~3.2 hours |
 | **14B** | 40+ GB VRAM (e.g., A100 40GB) | ~6 hours |
 | **32B** | 80 GB VRAM (e.g., A100 80GB) | ~10 hours |
-| **72B** | 80 GB VRAM (e.g., A100 80GB) | ~16.9 hours |
+| **72B** | 80 GB VRAM (e.g., A100 80GB) | ~13.0 hours |
 
 **OS**: Linux, macOS, Windows (WSL2)
 
@@ -495,7 +506,7 @@ cmmc-compliance-ai-model/
 - [x] v2.0 — 7B retrained and published on v2.0 data
 - [x] v2.0 — 14B retrained and published on v2.0 data
 - [x] v2.0 — 32B retrained and published on v2.0 data
-- [ ] v2.0 — 72B retraining (in progress)
+- [x] v2.0 — 72B retrained and published on v2.0 data
 - [ ] RAG integration — Live document retrieval for real-time regulatory updates
 - [ ] Agent integration — Deploy as a compliance agent with tool use (document search, SSP generation, gap analysis automation)
 - [ ] FedRAMP baselines, CIS Controls, and ITAR coverage
