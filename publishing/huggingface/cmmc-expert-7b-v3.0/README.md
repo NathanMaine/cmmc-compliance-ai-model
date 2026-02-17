@@ -144,7 +144,7 @@ The loss was still trending downward at epoch end, confirming that additional ep
 
 ## Training Data
 
-Uses the same [Nathan-Maine/cmmc-compliance-dataset](https://huggingface.co/Nathan-Maine/cmmc-compliance-dataset) as v2.0 — **18,747 total examples (~4.5M tokens)** from 11 sources:
+Uses the same [Nathan-Maine/cmmc-compliance-dataset](https://huggingface.co/datasets/Nathan-Maine/cmmc-compliance-dataset) as v2.0 — **18,747 total examples (~4.5M tokens)** from 11 sources:
 
 #### v1.0 Legacy Sources (13,434 examples)
 
@@ -179,7 +179,7 @@ Uses the same [Nathan-Maine/cmmc-compliance-dataset](https://huggingface.co/Nath
 | **Training Hardware** | NVIDIA H100 PCIe 80GB (RunPod) |
 | **Training Time** | 5 hours 36 minutes |
 | **Training Framework** | Axolotl |
-| **Dataset** | [Nathan-Maine/cmmc-compliance-dataset](https://huggingface.co/Nathan-Maine/cmmc-compliance-dataset) |
+| **Dataset** | [Nathan-Maine/cmmc-compliance-dataset](https://huggingface.co/datasets/Nathan-Maine/cmmc-compliance-dataset) |
 | **Final Train Loss** | 1.479 |
 
 ## Training Configuration
