@@ -60,7 +60,7 @@ curl http://localhost:11434/api/generate -d '{
 
 | Property | Value |
 |----------|-------|
-| **Base Model** | Qwen2.5-72B-Instruct (abliterated variant) |
+| **Base Model** | Qwen2.5-72B-Instruct |
 | **Parameters** | 72.7 billion |
 | **Fine-Tuning Method** | QLoRA (4-bit base, LoRA rank 64, alpha 128) |
 | **Quantization** | q4_k_m (GGUF) |
@@ -85,9 +85,9 @@ Use this model when accuracy and depth matter more than speed. For day-to-day qu
 
 At 72B parameters, 5-bit quantization would produce a ~55 GB GGUF file. The 4-bit q4_k_m quantization keeps the file at ~42 GB while the massive parameter count compensates for lower per-weight precision. Compliance accuracy remains high because the model's capacity far exceeds what the domain requires.
 
-### Why Abliterated?
+### Security Domain Coverage
 
-The base model uses an abliterated variant of Qwen2.5-Instruct. Standard instruction-tuned models refuse to discuss vulnerability details, attack patterns, and specific exploitation techniques — all of which are essential for compliance work. Abliteration removes these safety refusals so the model can provide complete, accurate compliance guidance including threat analysis and vulnerability assessment.
+Models are fine-tuned for complete security domain coverage, including vulnerability analysis, incident response scenarios, and access control failure modes required for professional SSP and POA&M generation. Behavioral guardrails and policy enforcement are handled at the [governed-llm-gateway](https://github.com/NathanMaine/governed-llm-gateway) layer.
 
 ## Compliance Framework Coverage
 

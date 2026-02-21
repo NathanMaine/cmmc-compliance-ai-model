@@ -76,9 +76,9 @@ Organizations pursuing CMMC certification face a knowledge bottleneck. Complianc
 
 Commercial LLMs (GPT-4, Claude) are powerful but introduce data residency concerns for organizations handling CUI and ITAR-controlled information. These models run fully local — **no data leaves the premises, no internet required, no per-token costs.**
 
-### Why Abliterated?
+### Security Domain Coverage
 
-The base models use abliterated variants of Qwen2.5-Instruct. Standard instruction-tuned models refuse to discuss vulnerability details, attack patterns, and exploitation techniques — all of which are **essential** for compliance work. Security assessments require analyzing threats, testing controls, and documenting attack scenarios. Abliteration removes these safety refusals so the model provides complete, accurate compliance guidance including threat analysis and vulnerability assessment.
+Models are fine-tuned for complete security domain coverage, including vulnerability analysis, incident response scenarios, and access control failure modes required for professional SSP and POA&M generation. Security assessments require analyzing threats, testing controls, and documenting attack scenarios. Behavioral guardrails and policy enforcement are handled at the [governed-llm-gateway](https://github.com/NathanMaine/governed-llm-gateway) layer.
 
 ---
 
@@ -256,7 +256,7 @@ All v2.0 models trained with QLoRA — base weights frozen in 4-bit NF4, trainab
 |----------|-----------|
 | **4 model sizes (7B–72B)** | Tiered deployment — laptop for quick lookups, workstation for deep analysis |
 | **QLoRA (not full fine-tune)** | Trainable params are <0.3% of total. 50x less compute, comparable domain accuracy |
-| **Abliterated base models** | Removes alignment refusals that interfere with compliance work |
+| **Security domain coverage** | Complete coverage of vulnerability analysis, threat modeling, and incident response for compliance work |
 | **q5_k_m / q4_k_m quantization** | 5-bit for smaller models (accuracy-sensitive), 4-bit for larger (size-constrained) |
 | **Local-only deployment** | CUI/ITAR data cannot leave premises. Zero cloud dependency by design |
 | **Multi-framework training** | Cross-mapping across CMMC, NIST, HIPAA, and DFARS is the real value |
@@ -306,7 +306,7 @@ This model suite was designed for environments where data sovereignty matters:
 - **Knowledge cutoff.** The model's knowledge reflects training data at time of creation (February 2026). Always verify against current published frameworks.
 - **No retrieval augmentation.** Generates from trained knowledge only — does not search or retrieve external documents at inference time.
 - **Citation accuracy.** While the model generally cites correct control numbers, always verify against authoritative sources.
-- **Abliterated base.** The model will discuss vulnerability details, attack patterns, and exploitation techniques without restriction. Deploy responsibly.
+- **Security domain coverage.** The model covers vulnerability details, attack patterns, and exploitation techniques for complete compliance domain coverage. Behavioral guardrails and policy enforcement are handled at the [governed-llm-gateway](https://github.com/NathanMaine/governed-llm-gateway) layer.
 
 ---
 

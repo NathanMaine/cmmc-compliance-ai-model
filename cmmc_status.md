@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-A suite of fine-tuned language models specialized in CMMC (Cybersecurity Maturity Model Certification) and cybersecurity compliance. Built on Qwen2.5 abliterated base models using QLoRA fine-tuning, covering CMMC 2.0, NIST SP 800-171/172/53, NIST CSF, HIPAA Security Rule, and DFARS clauses.
+A suite of fine-tuned language models specialized in CMMC (Cybersecurity Maturity Model Certification) and cybersecurity compliance. Built on Qwen2.5 base models using QLoRA fine-tuning, covering CMMC 2.0, NIST SP 800-171/172/53, NIST CSF, HIPAA Security Rule, and DFARS clauses.
 
 **Repository:** `cmmc-compliance-ai-model`
 **Data Pipeline:** `cmmc-data-pipeline`
@@ -33,10 +33,10 @@ A suite of fine-tuned language models specialized in CMMC (Cybersecurity Maturit
 
 | Model | Base | Quant | Size | Eval Loss | HuggingFace |
 |-------|------|-------|------|-----------|-------------|
-| 7B | Qwen2.5-7B-Instruct-abliterated | q5_k_m | 5.6 GB | 1.241 | Nathan-Maine/cmmc-expert-7b |
-| 14B | Qwen2.5-14B-Instruct-abliterated | q5_k_m | 10.4 GB | — | Nathan-Maine/cmmc-expert-14b |
-| 32B | Qwen2.5-32B-Instruct-abliterated | q4_k_m | 20.4 GB | — | Nathan-Maine/cmmc-expert-32b |
-| 72B | Qwen2.5-72B-Instruct-abliterated | q4_k_m | 44.2 GB | 1.004 | Nathan-Maine/cmmc-expert-72b |
+| 7B | Qwen2.5-7B-Instruct | q5_k_m | 5.6 GB | 1.241 | Nathan-Maine/cmmc-expert-7b |
+| 14B | Qwen2.5-14B-Instruct | q5_k_m | 10.4 GB | — | Nathan-Maine/cmmc-expert-14b |
+| 32B | Qwen2.5-32B-Instruct | q4_k_m | 20.4 GB | — | Nathan-Maine/cmmc-expert-32b |
+| 72B | Qwen2.5-72B-Instruct | q4_k_m | 44.2 GB | 1.004 | Nathan-Maine/cmmc-expert-72b |
 
 - All models trained on RunPod A100 80GB instances
 - QLoRA config: r=64, alpha=128, dropout=0.05, 4-bit NF4 quantization

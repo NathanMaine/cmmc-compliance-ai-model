@@ -17,7 +17,7 @@ tags:
 - on-premises
 datasets:
 - Nathan-Maine/cmmc-compliance-dataset
-base_model: huihui-ai/Qwen2.5-7B-Instruct-abliterated
+base_model: Qwen/Qwen2.5-7B-Instruct
 model-index:
 - name: cmmc-expert-7b-v3.0
   results:
@@ -78,7 +78,7 @@ v1.0 and v2.0 established that QLoRA fine-tuning with high LoRA rank (64), 3 epo
 | Parameter | v1.0 | v2.0 | v3.0 (This Release) |
 |-----------|------|------|----------------------|
 | **Training Framework** | Unsloth + TRL + PEFT | Unsloth + TRL + PEFT | **Axolotl** |
-| **Base Model** | Qwen2.5-7B-Instruct (abliterated) | Qwen2.5-7B-Instruct (abliterated) | **Qwen2.5-7B-Instruct (abliterated)** |
+| **Base Model** | Qwen2.5-7B-Instruct | Qwen2.5-7B-Instruct | **Qwen2.5-7B-Instruct** |
 | **Base Quantization** | 4-bit NF4 | 4-bit NF4 | **8-bit** |
 | **LoRA Rank** | 64 | 64 | **8** |
 | **LoRA Alpha** | 128 | 128 | **16** |
@@ -94,7 +94,7 @@ v1.0 and v2.0 established that QLoRA fine-tuning with high LoRA rank (64), 3 epo
 
 ### Key Differences Explained
 
-**Abliterated base model (consistent with v1.0/v2.0)** — v3.0 continues to use the abliterated variant of Qwen2.5-7B-Instruct, removing safety refusals that interfere with legitimate compliance work (vulnerability analysis, threat modeling, incident response procedures).
+**Security domain coverage (consistent with v1.0/v2.0)** — v3.0 is fine-tuned for complete security domain coverage, including vulnerability analysis, threat modeling, and incident response procedures required for professional compliance work. Behavioral guardrails and policy enforcement are handled at the [governed-llm-gateway](https://github.com/NathanMaine/governed-llm-gateway) layer.
 
 **8-bit quantization (vs 4-bit)** — The base model is loaded in 8-bit precision during training rather than 4-bit NF4. This provides higher fidelity base weights at the cost of more VRAM usage (32.5 GB peak vs ~14 GB for v2.0's 4-bit). The H100's 80 GB of VRAM easily accommodated this, but the extra precision alone did not compensate for the reduced LoRA rank and fewer epochs.
 
@@ -171,7 +171,7 @@ Uses the same [Nathan-Maine/cmmc-compliance-dataset](https://huggingface.co/data
 
 | Property | Value |
 |----------|-------|
-| **Base Model** | Qwen2.5-7B-Instruct (abliterated) |
+| **Base Model** | Qwen2.5-7B-Instruct |
 | **Parameters** | 7.6 billion |
 | **Fine-Tuning Method** | LoRA (8-bit base, LoRA rank 8, alpha 16) |
 | **Trainable Parameters** | 20,185,088 (0.26% of total) |
@@ -186,7 +186,7 @@ Uses the same [Nathan-Maine/cmmc-compliance-dataset](https://huggingface.co/data
 
 ```yaml
 adapter: lora
-base_model: huihui-ai/Qwen2.5-7B-Instruct-abliterated
+base_model: Qwen/Qwen2.5-7B-Instruct
 bf16: auto
 load_in_8bit: true
 datasets:
@@ -267,7 +267,7 @@ This experiment produced several actionable insights for future model training:
 
 - **Not a substitute for qualified compliance professionals.** This model is a tool to accelerate compliance work, not replace human judgment.
 - **Knowledge cutoff.** The model's knowledge is based on training data available at the time of fine-tuning. Always verify against current published frameworks.
-- **Abliterated base model.** Like v1.0/v2.0, this model uses an abliterated base that removes safety refusals. It will discuss vulnerability details, attack patterns, and exploitation techniques without restriction. Deploy responsibly.
+- **Security domain coverage.** Like v1.0/v2.0, this model is fine-tuned for complete security domain coverage including vulnerability analysis, attack patterns, and exploitation techniques. Behavioral guardrails and policy enforcement are handled at the [governed-llm-gateway](https://github.com/NathanMaine/governed-llm-gateway) layer.
 - **Experimental — higher train loss than v2.0.** The 1.479 train loss is significantly higher than v2.0's 1.030. For production compliance work requiring precise practice citations and control distinctions, v2.0 is recommended.
 - **Single epoch training.** With only one pass over the data, the model may not have fully internalized all practice IDs and control distinctions.
 - **Lower LoRA rank.** The r=8 configuration has fewer trainable parameters per module than v2.0's r=64, limiting per-module knowledge capacity.

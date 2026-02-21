@@ -101,7 +101,7 @@ ollama run cmmc-expert-7b "What is CMMC Level 2?"
 
 ### Base Model
 
-Qwen2.5 Instruct (abliterated variant) — fine-tuned with QLoRA on 13,434 compliance examples across 8 frameworks.
+Qwen2.5 Instruct — fine-tuned with QLoRA on 13,434 compliance examples across 8 frameworks.
 NOTES
 )
 

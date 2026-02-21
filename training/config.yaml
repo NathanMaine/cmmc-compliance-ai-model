@@ -1,5 +1,5 @@
 # CMMC Compliance AI Model — Training Configuration
-# QLoRA fine-tuning of Qwen2.5 Instruct (abliterated) for cybersecurity compliance
+# QLoRA fine-tuning of Qwen2.5 Instruct for cybersecurity compliance
 #
 # This is the 7B configuration. For other model sizes, override model.base_model:
 #   7B:  Qwen/Qwen2.5-7B-Instruct    (local GPU, 16 GB VRAM)

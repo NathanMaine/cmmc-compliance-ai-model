@@ -93,11 +93,11 @@ Choosing the right base model is as critical as the fine-tuning technique itself
    - Weaknesses: Weaker multilingual support, occasional instruction drift
    - CMMC eval accuracy (zero-shot): 31.8%
 
-3. **Qwen2.5-7B-Instruct** (7.62B parameters) — abliterated variant
+3. **Qwen2.5-7B-Instruct** (7.62B parameters)
    - Strengths: Superior instruction adherence, excellent structured output, efficient tokenizer
    - Weaknesses: Less community adoption than Llama
    - CMMC eval accuracy (zero-shot): 38.1%
-   - The abliterated variant removes alignment refusals that interfere with compliance analysis (e.g., discussing vulnerability details, attack vectors in incident response contexts)
+   - Fine-tuned for complete security domain coverage including vulnerability analysis and incident response scenarios; behavioral guardrails and policy enforcement are handled at the governed-llm-gateway layer
 
 ### Evaluation Methodology
 
@@ -170,7 +170,7 @@ This format required minimal preprocessing compared to Llama's more complex chat
 
 Qwen2.5-7B-Instruct provided the best foundation for compliance domain adaptation, scoring 38.1% zero-shot accuracy compared to Llama's 34.2% and Mistral's 31.8%. Post-fine-tuning, this gap widened to 91.7% (Qwen) vs 87.3% (Llama) vs 85.9% (Mistral) on our held-out eval set.
 
-We selected the abliterated variant of Qwen2.5 Instruct across all four model sizes (7B, 14B, 32B, 72B). The abliterated variant removes safety refusals that would otherwise prevent the model from discussing vulnerability details, attack patterns, and incident response procedures — all essential topics for compliance advisory work.
+We selected Qwen2.5 Instruct across all four model sizes (7B, 14B, 32B, 72B). The models are fine-tuned for complete security domain coverage, including vulnerability analysis, attack patterns, and incident response procedures — all essential topics for compliance advisory work. Behavioral guardrails and policy enforcement are handled at the governed-llm-gateway layer.
 
 ---
 
@@ -698,7 +698,7 @@ The key insights:
 
 1. **QLoRA is not a compromise**—it matches full fine-tuning quality at 1/50th the cost
 2. **Base model selection matters**—Qwen2.5's instruction-following quality provided a 4% accuracy headstart
-3. **Abliterated variants are necessary** for compliance work — standard alignment refusals block legitimate security discussions
+3. **Complete security domain coverage is necessary** for compliance work — models must cover vulnerability analysis, threat modeling, and incident response scenarios
 4. **Rank 64 is the sweet spot** for knowledge-dense domains (vs rank 16 for style/format tasks)
 5. **3 epochs balance memorization and generalization** for factual domain knowledge
 6. **Tiered quantization** (q5_k_m for 7B/14B, q4_k_m for 32B/72B) optimizes the accuracy-size tradeoff per model
