@@ -31,7 +31,7 @@ All four models share the same compliance knowledge base and training data. The 
 | **cmmc-expert-32b** | 32.5B | 18.9 GB | q4_k_m | 1.073 | 24 GB VRAM or 32 GB RAM |
 | **cmmc-expert-72b** | 72.7B | 45 GB | q4_k_m | **1.048** | 48 GB VRAM or 64 GB RAM |
 
-**Base models**: [Qwen2.5 Instruct](https://huggingface.co/Qwen) (abliterated variant by [huihui-ai](https://huggingface.co/huihui-ai)) — 7B, 14B, 32B, 72B
+**Base models**: [Qwen2.5 Instruct](https://huggingface.co/Qwen) — 7B, 14B, 32B, 72B. Models are fine-tuned for complete security domain coverage; behavioral guardrails and policy enforcement are handled at the [governed-llm-gateway](https://github.com/NathanMaine/governed-llm-gateway) layer. Base model migration to [Meta Llama 3.1/3.3](https://huggingface.co/meta-llama) in progress
 
 **Method**: QLoRA fine-tuning — base model weights frozen in 4-bit, low-rank adapters trained on compliance data
 
@@ -303,7 +303,7 @@ The models understand the full chain from contract clause to technical implement
 ┌──────────────────────────────────────────────────────────┐
 │              Ollama Runtime (Local)                        │
 │  ┌────────────────────────────────────────────────────┐   │
-│  │  Qwen2.5 Base (frozen, 4-bit quantized)            │   │
+│  │  Foundation Model (frozen, 4-bit quantized)         │   │
 │  │  + QLoRA Adapters (compliance-tuned)                │   │
 │  │                                                     │   │
 │  │  7B  — quick lookups, day-to-day queries            │   │
@@ -333,7 +333,7 @@ The models understand the full chain from contract clause to technical implement
 |----------|-----------|
 | **4 model sizes (7B–72B)** | Tiered deployment — laptop for quick lookups, workstation for deep analysis. Match the model to the hardware |
 | **QLoRA (not full fine-tune)** | Trainable params are <0.1% of total. 50x less compute, comparable domain accuracy |
-| **Abliterated base models** | Removes alignment refusals that interfere with compliance analysis (e.g., discussing vulnerability details, attack scenarios in assessment context) |
+| **Security domain completeness** | Models are fine-tuned for complete security domain coverage, including vulnerability analysis, incident response scenarios, and access control failure modes required for professional SSP and POA&M generation. Behavioral guardrails and policy enforcement are handled at the governed-llm-gateway layer |
 | **q5_k_m / q4_k_m quantization** | 5-bit for smaller models (accuracy-sensitive), 4-bit for larger (size-constrained). Compliance is fact-heavy — extra bit preserves control IDs |
 | **Local-only deployment** | CUI/ITAR data cannot leave premises. Zero cloud dependency by design. Fully air-gappable |
 | **Multi-framework training** | Organizations rarely have single-framework obligations. Cross-mapping across CMMC, NIST, HIPAA, and DFARS is the real value |
@@ -425,6 +425,7 @@ cmmc-compliance-ai-model/
 - [x] v2.0 — 14B retrained and published on v2.0 data
 - [x] v2.0 — 32B retrained and published on v2.0 data
 - [x] v2.0 — 72B retrained and published on v2.0 data
+- [ ] v4.0 — Base model migration from Qwen2.5 to Meta Llama 3.1/3.3 (US-origin, open weights)
 - [ ] RAG integration — Live document retrieval for real-time regulatory updates
 - [ ] Agent integration — Deploy as a compliance agent with tool use (document search, SSP generation, gap analysis automation)
 - [ ] FedRAMP baselines, CIS Controls, and ITAR coverage
@@ -433,7 +434,7 @@ cmmc-compliance-ai-model/
 
 ## Built With
 
-- **Base Models**: [Qwen2.5 Instruct](https://huggingface.co/Qwen) (abliterated variant) — 7B, 14B, 32B, 72B
+- **Base Models**: [Qwen2.5 Instruct](https://huggingface.co/Qwen) — 7B, 14B, 32B, 72B (migration to [Meta Llama 3.1/3.3](https://huggingface.co/meta-llama) in progress)
 - **Training**: [HuggingFace TRL](https://github.com/huggingface/trl) + [PEFT](https://github.com/huggingface/peft) + [bitsandbytes](https://github.com/bitsandbytes-foundation/bitsandbytes) — QLoRA fine-tuning
 - **72B Training**: [Unsloth](https://github.com/unslothai/unsloth) — Memory-efficient model loading for 72B on single GPU
 - **Quantization**: [llama.cpp](https://github.com/ggerganov/llama.cpp) — GGUF format (q4_k_m / q5_k_m)
