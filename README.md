@@ -1,6 +1,8 @@
 # CMMC Compliance AI Model
 
-**A suite of four locally-hosted, fine-tuned language models specialized in CMMC 2.0, NIST 800-171, NIST 800-53, HIPAA, and cybersecurity compliance frameworks.**
+**A locally-hosted, fine-tuned language model specialized in CMMC 2.0, NIST 800-171, NIST 800-53, HIPAA, DFARS, and cybersecurity compliance frameworks.**
+
+> **Notice:** These models are provided for proof-of-concept and evaluation purposes only. Production-grade models are not publicly shared. For inquiries regarding production models or commercial licensing, please contact the maintainer: [Nathan Maine](mailto:nmaine@gmail.com).
 
 Built to answer the question: *Can a small team deploy a domain-specific AI compliance advisor that runs entirely on-premises — no cloud, no API fees, no CUI exposure?*
 
