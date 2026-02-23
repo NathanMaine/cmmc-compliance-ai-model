@@ -90,7 +90,6 @@ Version 2.0 significantly expands the training corpus with authoritative source 
 - **Expanded LoRA coverage** — All 7 transformer modules targeted across all model sizes
 - **Best eval loss: 1.048** — 72B flagship model achieves the lowest loss in the suite
 - **Improved across the board** — 7B eval loss improved from 1.241 (v1.0) to 1.142 (v2.0)
-- **Automated data pipeline** — Reproducible scraping, filtering, and deduplication via [cmmc-data-pipeline](https://github.com/NathanMaine/cmmc-data-pipeline)
 
 The regulatory landscape changed substantially since the v1.0 training data was assembled. Version 2.0 addresses these gaps:
 
