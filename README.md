@@ -33,7 +33,7 @@ All four models share the same compliance knowledge base and training data. The 
 | **cmmc-expert-32b** | 32.5B | 18.9 GB | q4_k_m | 1.073 | 24 GB VRAM or 32 GB RAM |
 | **cmmc-expert-72b** | 72.7B | 45 GB | q4_k_m | **1.048** | 48 GB VRAM or 64 GB RAM |
 
-**Base models**: [Qwen2.5 Instruct](https://huggingface.co/Qwen) — 7B, 14B, 32B, 72B. Models are fine-tuned for complete security domain coverage; behavioral guardrails and policy enforcement are handled at the [governed-llm-gateway](https://github.com/NathanMaine/governed-llm-gateway) layer. Base model migration to [Meta Llama 3.1/3.3](https://huggingface.co/meta-llama) in progress
+**Base models**: [Qwen2.5 Instruct](https://huggingface.co/Qwen) — 7B, 14B, 32B, 72B. Models are fine-tuned for complete security domain coverage; behavioral guardrails and policy enforcement are handled at the [governed-llm-gateway](https://github.com/NathanMaine/governed-llm-gateway) layer. Base model migration to [Meta Llama 3.1/3.3](https://huggingface.co/meta-llama) in progress [ Qwen models removed on all versions 3.0 or higher ]
 
 **Method**: QLoRA fine-tuning — base model weights frozen in 4-bit, low-rank adapters trained on compliance data
 
