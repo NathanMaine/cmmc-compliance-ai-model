@@ -8,9 +8,9 @@ Built to answer the question: *Can a small team deploy a domain-specific AI comp
 
 **Yes. Four model sizes from 5 GB to 45 GB — from laptop to workstation to server.**
 
-> **Current release:** Version 2.0 (February 2026) — All four models trained and published. Expanded training data (18,747 examples from 11 sources).
+> **Current release:** Version 3.0 (April 2026) — 13 models trained across 8 base architectures. New flagship: Gemma 4 31B (eval loss 0.4517). Published under [Memoriant, Inc.](https://huggingface.co/memoriant) organization.
 >
-> **v1.0 models** remain available on HuggingFace for existing deployments
+> **v2.0 models** remain available on HuggingFace under [Nathan-Maine](https://huggingface.co/Nathan-Maine) for existing deployments
 
 ---
 
@@ -24,18 +24,37 @@ Commercial LLMs (GPT-4, Claude) are powerful but introduce data residency concer
 
 ## Model Suite
 
-All four models share the same compliance knowledge base and training data. The tiered approach allows organizations to deploy the model that best matches their available hardware.
+### Version 3.0 (Current - April 2026)
 
-| Model | Parameters | GGUF Size | Quantization | Eval Loss | Hardware Required |
-|-------|-----------|-----------|--------------|-----------|-------------------|
-| **cmmc-expert-7b** | 7.6B | 5.1 GB | q5_k_m | 1.142 | 8 GB VRAM (consumer GPU) |
-| **cmmc-expert-14b** | 14.7B | 9.8 GB | q5_k_m | 1.144 | 12 GB VRAM |
-| **cmmc-expert-32b** | 32.5B | 18.9 GB | q4_k_m | 1.073 | 24 GB VRAM or 32 GB RAM |
-| **cmmc-expert-72b** | 72.7B | 45 GB | q4_k_m | **1.048** | 48 GB VRAM or 64 GB RAM |
+13 models trained across 8 US-origin base architectures. All trained on v6.0 dataset (18,202 curated examples). Published under [Memoriant, Inc.](https://huggingface.co/memoriant) organization.
 
-**Base models**: [Qwen2.5 Instruct](https://huggingface.co/Qwen) — 7B, 14B, 32B, 72B. Models are fine-tuned for complete security domain coverage; behavioral guardrails and policy enforcement are handled at the [governed-llm-gateway](https://github.com/NathanMaine/governed-llm-gateway) layer. Base model migration to [Meta Llama 3.1/3.3](https://huggingface.co/meta-llama) in progress [ Qwen models removed on all versions 3.0 or higher ]
+| Model | Base | Parameters | Eval Loss | GGUF Size | Hardware Required |
+|-------|------|-----------|-----------|-----------|-------------------|
+| **cmmc-expert-gemma4-31b** | Gemma 4 31B | 31B | **0.4517** | 20 GB | 48 GB+ VRAM or NVIDIA DGX |
+| **cmmc-expert-gemma4-31b-it** | Gemma 4 31B IT | 31B | 0.5176 | 20 GB | 48 GB+ VRAM or NVIDIA DGX |
+| **cmmc-expert-12b** | Gemma 3 12B | 12B | 0.5830 | 7.9 GB | 16 GB VRAM |
+| **cmmc-expert-phi4-14b** | Phi-4 14B | 14B | 0.6059 | ~9 GB | 16 GB VRAM |
+| **cmmc-expert-olmo2-32b** | OLMo-2 32B | 32B | N/A | ~20 GB | 24 GB+ VRAM |
+| **cmmc-expert-llama3.1-8b** | Llama 3.1 8B | 8B | 0.8194 | 5.3 GB | 8 GB VRAM |
 
-**Method**: QLoRA fine-tuning — base model weights frozen in 4-bit, low-rank adapters trained on compliance data
+### Version 2.0 (Legacy - February 2026)
+
+| Model | Base | GGUF Size | Eval Loss |
+|-------|------|-----------|-----------|
+| cmmc-expert-7b-v2.0 | Qwen2.5 7B | 5.1 GB | 1.142 |
+| cmmc-expert-14b-v2.0 | Qwen2.5 14B | 9.8 GB | 1.144 |
+| cmmc-expert-32b-v2.0 | Qwen2.5 32B | 18.9 GB | 1.073 |
+| cmmc-expert-72b-v2.0 | Qwen2.5 72B | 45 GB | 1.048 |
+
+**v3.0 improvements over v2.0:**
+- Eval loss improved from 1.048 (best v2.0) to **0.4517** (v3.0 flagship) - 57% improvement
+- Migrated from Qwen2.5 (Chinese-origin) to US-origin base models (Gemma, Llama, Phi, Granite, OLMo)
+- Apache 2.0 licensing (fully permissive, no restrictions)
+- 256K context window (up from 2048 tokens)
+- Native system prompt and function calling support
+- Day-zero fine-tuning of Gemma 4 (released April 2, 2026)
+
+**Method**: QLoRA fine-tuning (4-bit NF4, rank 64, alpha 128) on NVIDIA B200 and DGX Spark hardware
 
 **Runtime**: [Ollama](https://ollama.ai) (OpenAI-compatible API at `localhost:11434/v1`)
 
@@ -43,34 +62,35 @@ All four models share the same compliance knowledge base and training data. The 
 
 ## Download
 
-### Version 2.0 (Latest)
+### Memoriant Organization (v3.0 - Current)
 
-| Model | Hugging Face | Size | Status |
-|-------|-------------|------|--------|
-| **cmmc-expert-7b-v2.0** | [Download GGUF](https://huggingface.co/Nathan-Maine/cmmc-expert-7b-v2.0) | 5.1 GB | Available |
-| **cmmc-expert-14b-v2.0** | [Download GGUF](https://huggingface.co/Nathan-Maine/cmmc-expert-14b-v2.0) | 9.8 GB | Available |
-| **cmmc-expert-32b-v2.0** | [Download GGUF](https://huggingface.co/Nathan-Maine/cmmc-expert-32b-v2.0) | 18.9 GB | Available |
-| **cmmc-expert-72b-v2.0** | [Download GGUF](https://huggingface.co/Nathan-Maine/cmmc-expert-72b-v2.0) | 45 GB | Available |
+| Resource | HuggingFace | Type | Status |
+|----------|------------|------|--------|
+| **CMMC Expert 12B** | [memoriant/cmmc-expert-12b](https://huggingface.co/memoriant/cmmc-expert-12b) | Model (GGUF) | Available (gated) |
+| **Compliance Dataset v6.0** | [memoriant/cmmc-compliance-dataset](https://huggingface.co/datasets/memoriant/cmmc-compliance-dataset) | Dataset | Available (gated) |
+| **Compliance Benchmark v1.0** | [memoriant/cmmc-compliance-benchmark](https://huggingface.co/datasets/memoriant/cmmc-compliance-benchmark) | Benchmark | Available (gated) |
 
-### Version 1.0 (Legacy)
+Enterprise models (up to 31B parameters, 256K context) available upon request through [Memoriant, Inc.](https://memoriant.ai)
 
-| Model | Hugging Face | Size |
-|-------|-------------|------|
-| **cmmc-expert-7b** | [Download GGUF](https://huggingface.co/Nathan-Maine/cmmc-expert-7b) | 5.1 GB |
-| **cmmc-expert-14b** | [Download GGUF](https://huggingface.co/Nathan-Maine/cmmc-expert-14b) | ~10 GB |
-| **cmmc-expert-32b** | [Download GGUF](https://huggingface.co/Nathan-Maine/cmmc-expert-32b) | 18.5 GB |
-| **cmmc-expert-72b** | [Download GGUF](https://huggingface.co/Nathan-Maine/cmmc-expert-72b) | 44.2 GB |
+### Nathan-Maine (v2.0 - Legacy)
+
+| Model | HuggingFace | Size |
+|-------|------------|------|
+| cmmc-expert-7b-v2.0 | [Download](https://huggingface.co/Nathan-Maine/cmmc-expert-7b-v2.0) | 5.1 GB |
+| cmmc-expert-14b-v2.0 | [Download](https://huggingface.co/Nathan-Maine/cmmc-expert-14b-v2.0) | 9.8 GB |
+| cmmc-expert-32b-v2.0 | [Download](https://huggingface.co/Nathan-Maine/cmmc-expert-32b-v2.0) | 18.9 GB |
+| cmmc-expert-72b-v2.0 | [Download](https://huggingface.co/Nathan-Maine/cmmc-expert-72b-v2.0) | 45 GB |
 
 Quick start with Ollama:
 ```bash
-# Download and run (pick your size)
-ollama run Nathan-Maine/cmmc-expert-7b-v2.0
+# Download and run the 12B model
+ollama run memoriant/cmmc-expert-12b
 
 # Or use the OpenAI-compatible API
 curl http://localhost:11434/v1/chat/completions \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "Nathan-Maine/cmmc-expert-7b-v2.0",
+    "model": "memoriant/cmmc-expert-12b",
     "messages": [{"role": "user", "content": "What are the access control requirements for CMMC Level 2?"}]
   }'
 ```
@@ -416,33 +436,37 @@ cmmc-compliance-ai-model/
 
 ## Roadmap
 
-- [x] v1.0 — 7B model trained and published
-- [x] v1.0 — 14B model trained and published
-- [x] v1.0 — 32B model trained and published
-- [x] v1.0 — 72B model trained and published
-- [x] v2.0 — Automated scraping pipeline (6 new sources)
-- [x] v2.0 — Expanded training data (18,747 examples from 11 sources)
-- [x] v2.0 — 7B retrained and published on v2.0 data
-- [x] v2.0 — 14B retrained and published on v2.0 data
-- [x] v2.0 — 32B retrained and published on v2.0 data
-- [x] v2.0 — 72B retrained and published on v2.0 data
-- [ ] v4.0 — Base model migration from Qwen2.5 to Meta Llama 3.1/3.3 (US-origin, open weights)
-- [ ] RAG integration — Live document retrieval for real-time regulatory updates
-- [ ] Agent integration — Deploy as a compliance agent with tool use (document search, SSP generation, gap analysis automation)
-- [ ] FedRAMP baselines, CIS Controls, and ITAR coverage
+- [x] v1.0 - 4 models (7B-72B) trained on Qwen2.5, published on HuggingFace
+- [x] v2.0 - Automated scraping pipeline, expanded to 18,747 examples from 11 sources
+- [x] v3.0 - Base model migration to US-origin architectures (Gemma, Llama, Phi, OLMo, Granite)
+- [x] v3.0 - 13 models trained across 8 architectures on NVIDIA B200 and DGX Spark
+- [x] v3.0 - Flagship: Gemma 4 31B (eval loss 0.4517, day-zero fine-tuning)
+- [x] v3.0 - Published under Memoriant, Inc. HuggingFace organization
+- [x] v3.0 - Standardized compliance benchmark (46 questions, 9 tiers) published
+- [x] v3.0 - CMMC Expert Platform v08 (orchestrator + gateway + RAG + PII + audit trails)
+- [x] v3.0 - Open source contributions: huggingface/peft#3129, huggingface/transformers#45200
+- [ ] v3.1 - Platform v09 with Qdrant vector search (replacing ChromaDB)
+- [ ] v3.1 - Gemma 4 26B-A4B MoE fine-tuning (fast inference variant)
+- [ ] v3.2 - 500+ question production benchmark (full NIST 800-171 coverage)
+- [ ] v4.0 - Agent integration with CrewAI for multi-agent compliance workflows
+- [ ] v4.0 - FedRAMP baselines, CIS Controls, and ITAR coverage
+- [ ] v4.0 - Custom fine-tuning pipeline for organization-specific compliance data
 
 ---
 
 ## Built With
 
-- **Base Models**: [Qwen2.5 Instruct](https://huggingface.co/Qwen) — 7B, 14B, 32B, 72B (migration to [Meta Llama 3.1/3.3](https://huggingface.co/meta-llama) in progress)
-- **Training**: [HuggingFace TRL](https://github.com/huggingface/trl) + [PEFT](https://github.com/huggingface/peft) + [bitsandbytes](https://github.com/bitsandbytes-foundation/bitsandbytes) — QLoRA fine-tuning
-- **72B Training**: [Unsloth](https://github.com/unslothai/unsloth) — Memory-efficient model loading for 72B on single GPU
-- **Quantization**: [llama.cpp](https://github.com/ggerganov/llama.cpp) — GGUF format (q4_k_m / q5_k_m)
-- **Inference**: [Ollama](https://ollama.ai) — Local deployment with OpenAI-compatible API
-- **Data Pipeline**: [cmmc-data-pipeline](https://github.com/NathanMaine/cmmc-data-pipeline) — Python + [datasketch](https://github.com/ekzhu/datasketch) + [xxhash](https://github.com/Cyan4973/xxHash) — Scraping, conversion, deduplication
-- **Data Sources**: NIST OSCAL (GitHub), eCFR API, Federal Register API, DoD PDFs
-- **Cloud Training Hardware**: NVIDIA A100 80GB SXM ([RunPod](https://www.runpod.io))
+- **Base Models (v3.0)**: [Google Gemma 4](https://huggingface.co/google/gemma-4-31B) (flagship), [Google Gemma 3](https://huggingface.co/google/gemma-3-12b-pt), [Meta Llama 3.1](https://huggingface.co/meta-llama/Llama-3.1-8B), [Microsoft Phi-4](https://huggingface.co/microsoft/phi-4), [AI2 OLMo-2](https://huggingface.co/allenai/OLMo-2-0325-32B), [IBM Granite 3.1](https://huggingface.co/ibm-granite/granite-3.1-8b-base)
+- **Base Models (v2.0 legacy)**: [Qwen2.5 Instruct](https://huggingface.co/Qwen) (7B, 14B, 32B, 72B)
+- **Training**: [HuggingFace TRL](https://github.com/huggingface/trl) + [PEFT](https://github.com/huggingface/peft) + [bitsandbytes](https://github.com/bitsandbytes-foundation/bitsandbytes) -- QLoRA fine-tuning
+- **Quantization**: [llama.cpp](https://github.com/ggerganov/llama.cpp) -- GGUF format (Q4_K_M / Q5_K_M)
+- **Inference**: [Ollama](https://ollama.ai) -- Local deployment with OpenAI-compatible API
+- **Vector Search**: [Qdrant](https://qdrant.tech) (v09) / [ChromaDB](https://www.trychroma.com) (v08) -- RAG pipeline
+- **Platform**: Custom orchestrator + [governed-llm-gateway](https://github.com/NathanMaine/governed-llm-gateway) -- Auth, PII, policy, audit
+- **Data Pipeline**: [cmmc-data-pipeline](https://github.com/NathanMaine/cmmc-data-pipeline) -- 8 automated scrapers, MinHash dedup, 5-phase pipeline
+- **Data Sources**: NIST OSCAL, eCFR API, Federal Register API, CISA KEV, CIS Controls, DoD PDFs, FedRAMP
+- **Training Hardware**: NVIDIA B200 192GB ([RunPod](https://www.runpod.io)), NVIDIA DGX Spark GB10 128GB (on-premises)
+- **Organization**: [Memoriant, Inc.](https://huggingface.co/memoriant) on HuggingFace
 
 ---
 
