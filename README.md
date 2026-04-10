@@ -2,15 +2,13 @@
 
 **A locally-hosted, fine-tuned language model specialized in CMMC 2.0, NIST 800-171, NIST 800-53, HIPAA, DFARS, and cybersecurity compliance frameworks.**
 
-> **Notice:** These models are provided for proof-of-concept and evaluation purposes only. Production-grade models are not publicly shared. For inquiries regarding production models or commercial licensing, please contact the maintainer: [Nathan Maine](mailto:nmaine@gmail.com).
+> **Notice:** Research models are provided for evaluation purposes only. The Gemma 4 31B flagship is not publicly available — enterprise deployment runs through the Memoriant Platform. For commercial licensing, pilot programs, or partnership inquiries, contact [Nathan Maine](mailto:nmaine@gmail.com) or visit [memoriant.ai](https://memoriant.ai).
 
 Built to answer the question: *Can a small team deploy a domain-specific AI compliance advisor that runs entirely on-premises — no cloud, no API fees, no CUI exposure?*
 
-**Yes. Four model sizes from 5 GB to 45 GB — from laptop to workstation to server.**
+**Yes. Multiple model sizes from 4B edge models to 31B flagship — laptop to workstation to air-gapped appliance.**
 
-> **Current release:** Version 3.0 (April 2026) — 13 models trained across 8 base architectures. New flagship: Gemma 4 31B (eval loss 0.4517). Published under [Memoriant, Inc.](https://huggingface.co/memoriant) organization.
->
-> **v2.0 models** remain available on HuggingFace under [Nathan-Maine](https://huggingface.co/Nathan-Maine) for existing deployments
+> **Current release:** Q2 2026 — Gemma 4 31B flagship (private, enterprise-only, eval loss 0.4517). Two public Nemotron specialized models launching Q2 2026 (lookup specialist + POA&M generator). All Memoriant datasets and benchmarks refreshed quarterly. Published under [Memoriant, Inc.](https://huggingface.co/memoriant) organization.
 
 ---
 
@@ -22,66 +20,158 @@ Commercial LLMs (GPT-4, Claude) are powerful but introduce data residency concer
 
 ---
 
+## ⚠️ AI Safety Disclaimer — Always Review Output
+
+**AI systems make mistakes. Always review AI-generated output before using it for any purpose.**
+
+Any AI system — including those trained on the Memoriant datasets — can produce factually incorrect information, hallucinated citations, outdated guidance, or plausible-sounding fabrications. **Never submit AI output directly** to DoD assessors, regulatory agencies, or formal compliance documentation without qualified human review.
+
+**This is especially critical for CMMC and defense compliance.** Wrong answers can cause failed assessments. Failed assessments can cost DoD contracts. C3PAO assessors verify human understanding, not AI output. The DoD holds contractors accountable for their submissions, not the tools they used.
+
+**Memoriant's position:** AI is a force multiplier for compliance professionals, not a replacement. The human stays accountable. The AI accelerates the work. Every output is a draft for human review.
+
+---
+
 ## Model Suite
 
-### Version 3.0 (Current - April 2026)
+### Version 3.0 — Flagship & Legacy (Q2 2026)
 
-13 models trained across 8 US-origin base architectures. All trained on v6.0 dataset (18,202 curated examples). Published under [Memoriant, Inc.](https://huggingface.co/memoriant) organization.
+Models trained across multiple base architectures on the v6.0 dataset (18,202 curated examples). Published under [Memoriant, Inc.](https://huggingface.co/memoriant) organization.
+
+**Flagship (private — enterprise deployment only):**
 
 | Model | Base | Parameters | Eval Loss | GGUF Size | Hardware Required |
 |-------|------|-----------|-----------|-----------|-------------------|
 | **cmmc-expert-gemma4-31b** | Gemma 4 31B | 31B | **0.4517** | 20 GB | 48 GB+ VRAM or NVIDIA DGX |
 | **cmmc-expert-gemma4-31b-it** | Gemma 4 31B IT | 31B | 0.5176 | 20 GB | 48 GB+ VRAM or NVIDIA DGX |
-| **cmmc-expert-12b** | Gemma 3 12B | 12B | 0.5830 | 7.9 GB | 16 GB VRAM |
-| **cmmc-expert-phi4-14b** | Phi-4 14B | 14B | 0.6059 | ~9 GB | 16 GB VRAM |
-| **cmmc-expert-olmo2-32b** | OLMo-2 32B | 32B | N/A | ~20 GB | 24 GB+ VRAM |
-| **cmmc-expert-llama3.1-8b** | Llama 3.1 8B | 8B | 0.8194 | 5.3 GB | 8 GB VRAM |
 
-### Version 2.0 (Legacy - February 2026)
+The Gemma 4 31B flagship is the best-performing compliance AI model Memoriant has trained. It is **not publicly available** — the weights remain private as product IP. Enterprise deployment through the Memoriant Platform includes the flagship model, RAG with 30+ authoritative government documents, governed LLM gateway with audit trails, and quarterly regulatory updates.
 
-| Model | Base | GGUF Size | Eval Loss |
-|-------|------|-----------|-----------|
-| cmmc-expert-7b-v2.0 | Qwen2.5 7B | 5.1 GB | 1.142 |
-| cmmc-expert-14b-v2.0 | Qwen2.5 14B | 9.8 GB | 1.144 |
-| cmmc-expert-32b-v2.0 | Qwen2.5 32B | 18.9 GB | 1.073 |
-| cmmc-expert-72b-v2.0 | Qwen2.5 72B | 45 GB | 1.048 |
+Contact [Memoriant, Inc.](https://memoriant.ai) for enterprise licensing.
 
-**v3.0 improvements over v2.0:**
-- Eval loss improved from 1.048 (best v2.0) to **0.4517** (v3.0 flagship) - 57% improvement
-- Migrated from Qwen2.5 (Chinese-origin) to US-origin base models (Gemma, Llama, Phi, Granite, OLMo)
-- Apache 2.0 licensing (fully permissive, no restrictions)
-- 256K context window (up from 2048 tokens)
-- Native system prompt and function calling support
-- Day-zero fine-tuning of Gemma 4 (released April 2, 2026)
+**Research Models (earlier training experiments):**
 
-**Method**: QLoRA fine-tuning (4-bit NF4, rank 64, alpha 128) on NVIDIA B200 and DGX Spark hardware
+| Model | Base | Parameters | Eval Loss | GGUF Size | Hardware Required |
+|-------|------|-----------|-----------|-----------|-------------------|
+| cmmc-expert-12b | Gemma 3 12B | 12B | 0.5830 | 7.9 GB | 16 GB VRAM |
+| cmmc-expert-phi4-14b | Phi-4 14B | 14B | 0.6059 | ~9 GB | 16 GB VRAM |
+| cmmc-expert-olmo2-32b | OLMo-2 32B | 32B | N/A | ~20 GB | 24 GB+ VRAM |
+| cmmc-expert-llama3.1-8b | Llama 3.1 8B | 8B | 0.8194 | 5.3 GB | 8 GB VRAM |
 
-**Runtime**: [Ollama](https://ollama.ai) (OpenAI-compatible API at `localhost:11434/v1`)
+---
+
+### Coming Q2 2026 — Public Nemotron Specialized Models
+
+Two specialized models trained on NVIDIA Nemotron 3 base architectures. Published publicly under `memoriant/` on HuggingFace under the NVIDIA Nemotron Open Model License. Each model is **highly specialized** — excellent at one specific task rather than mediocre at many.
+
+| Model | Base | Specialty | Parameters | Expected Eval Loss | Hardware Required | Status |
+|-------|------|-----------|-----------|---------------------|-------------------|--------|
+| **cmmc-expert-nemotron-3-nano-4b** | NVIDIA Nemotron 3 Nano 4B | **Lookup Specialist** | 4B dense | TBD | 8 GB VRAM (laptop/edge) | Training Q2 2026 |
+| **cmmc-expert-nemotron-3-nano-30b** | NVIDIA Nemotron 3 Nano 30B-A3B | **POA&M Generator** | 30B / 3.5B active (MoE) | TBD | 24 GB+ VRAM | Training Q2 2026 |
+
+**Model 1: Lookup Specialist (Edge Tier — 4B)**
+
+Fine-tuned for fast, accurate CMMC control knowledge. Runs on a laptop, phone, or edge device.
+
+*What it does well:*
+- Look up any CMMC control (AC.L2-3.1.1 through SI.L2-3.14.7) with full detail
+- Identify control families and levels correctly
+- Explain NIST 800-171 controls in plain English
+- Point to the right DFARS clauses for each requirement
+- Refuse to hallucinate (Level 4/5, non-existent controls)
+
+*What it does NOT do:*
+- Draft SSPs
+- Generate POA&Ms
+- Perform gap analysis
+- Multi-turn compliance reasoning
+
+*Tagline:* "The CMMC control reference that fits in your pocket. Offline. Free."
+
+**Model 2: POA&M Generator (Professional Tier — 30B MoE)**
+
+Fine-tuned for remediation planning — POA&M and SSP drafting. 30B total parameters but only 3.5B active per token (Mixture of Experts), so inference is fast despite the model size. 1M token context window.
+
+*What it does well:*
+- Generate professional POA&M entries for failed controls
+- Draft SSP control descriptions
+- Identify remediation steps and milestones
+- Recommend evidence artifacts
+- Structured output with control IDs, timelines, resources
+- Basic gap analysis for common scenarios
+
+*What it does NOT do:*
+- Track v6.0 regulatory updates (Phase 2 timeline, DFARS 7019 elimination, HIPAA NPRM)
+- Perform complex multi-framework mapping
+- Provide C3PAO-specific assessment guidance
+- RAG-grounded responses with source citations
+
+*Tagline:* "Generate POA&M entries and SSP drafts in seconds. Human review required. 100x cheaper than a consultant."
+
+**Upgrade Path:**
+
+1. **Free — Lookup Specialist (4B)** → Learn CMMC basics, reference tool
+2. **Free — POA&M Generator (30B)** → Draft compliance documentation
+3. **Enterprise — Memoriant Platform** → Full flagship model + RAG + audit trails + monthly updates
+
+Both Nemotron models will be published under the NVIDIA Nemotron Open Model License (commercial-friendly, no layered licensing).
+
+---
+
+**Training Method:** QLoRA fine-tuning (4-bit NF4, rank 64, alpha 128) on NVIDIA B200, H200, and DGX Spark hardware
+
+**Runtime:** [Ollama](https://ollama.ai) (OpenAI-compatible API at `localhost:11434/v1`) or [llama.cpp](https://github.com/ggerganov/llama.cpp) (6.5x faster for serving)
 
 ---
 
 ## Download
 
-### Memoriant Organization (v3.0 - Current)
+### Memoriant Organization (Q2 2026 Release)
+
+All Memoriant assets are now on a quarterly versioning cadence with auto-gated access (login required, auto-approved). Each release is dated and expires at quarter end — new versions incorporate regulatory updates, DFARS amendments, and NIST revisions.
+
+**Training Data:**
+
+| Resource | HuggingFace | Valid Through |
+|----------|------------|---------------|
+| **CMMC Training Data** | [memoriant/cmmc-training-data-2026-q2](https://huggingface.co/datasets/memoriant/cmmc-training-data-2026-q2) | June 30, 2026 |
+
+**Benchmarks (Tiered — use the right one for your purpose):**
+
+| Tier | Purpose | HuggingFace | Questions |
+|------|---------|------------|-----------|
+| **v1 Preview** | Methodology sample (NOT for validation) | [memoriant/cmmc-benchmark-v1-preview-2026-q2](https://huggingface.co/datasets/memoriant/cmmc-benchmark-v1-preview-2026-q2) | 46 |
+| **v2 Spot Check** | Triage tool (NOT comprehensive) | [memoriant/cmmc-benchmark-v2-spotcheck-2026-q2](https://huggingface.co/datasets/memoriant/cmmc-benchmark-v2-spotcheck-2026-q2) | 454 |
+| **v3 Comprehensive** | **Authoritative evaluation standard** | [memoriant/cmmc-benchmark-v3-comprehensive-2026-q2](https://huggingface.co/datasets/memoriant/cmmc-benchmark-v3-comprehensive-2026-q2) | 1,273 |
+
+**If you are deploying compliance AI in a regulated environment, v3 is the only credible evaluation.** v1 and v2 are preliminary tools.
+
+**Models:**
 
 | Resource | HuggingFace | Type | Status |
 |----------|------------|------|--------|
 | **CMMC Expert 12B** | [memoriant/cmmc-expert-12b](https://huggingface.co/memoriant/cmmc-expert-12b) | Model (GGUF) | Available (gated) |
-| **Compliance Dataset v6.0** | [memoriant/cmmc-compliance-dataset](https://huggingface.co/datasets/memoriant/cmmc-compliance-dataset) | Dataset | Available (gated) |
-| **Compliance Benchmark v1.0** | [memoriant/cmmc-compliance-benchmark](https://huggingface.co/datasets/memoriant/cmmc-compliance-benchmark) | Benchmark | Available (gated) |
+| **CMMC Expert Nemotron 3 Nano 4B** | `memoriant/cmmc-expert-nemotron-3-nano-4b` | Model (GGUF) | Coming Q2 2026 |
+| **CMMC Expert Nemotron 3 Nano 30B** | `memoriant/cmmc-expert-nemotron-3-nano-30b` | Model (GGUF) | Coming Q2 2026 |
 
-Enterprise models (up to 31B parameters, 256K context) available upon request through [Memoriant, Inc.](https://memoriant.ai)
+The flagship Gemma 4 31B is **not publicly available** — enterprise deployment only through the Memoriant Platform. Contact [Memoriant, Inc.](https://memoriant.ai) for licensing.
 
-### Nathan-Maine (v2.0 - Legacy)
+### ⚠️ Quarterly Refresh Cycle
 
-| Model | HuggingFace | Size |
-|-------|------------|------|
-| cmmc-expert-7b-v2.0 | [Download](https://huggingface.co/Nathan-Maine/cmmc-expert-7b-v2.0) | 5.1 GB |
-| cmmc-expert-14b-v2.0 | [Download](https://huggingface.co/Nathan-Maine/cmmc-expert-14b-v2.0) | 9.8 GB |
-| cmmc-expert-32b-v2.0 | [Download](https://huggingface.co/Nathan-Maine/cmmc-expert-32b-v2.0) | 18.9 GB |
-| cmmc-expert-72b-v2.0 | [Download](https://huggingface.co/Nathan-Maine/cmmc-expert-72b-v2.0) | 45 GB |
+All Memoriant datasets and models follow a quarterly release cadence:
+
+- **Q2 2026** (current) — Valid through June 30, 2026
+- **Q3 2026** — Releases July 1, 2026
+- **Q4 2026** — Releases October 1, 2026
+
+**Why quarterly:** CMMC regulations, DFARS clauses, and NIST publications update continuously. A frozen benchmark becomes invalid within a quarter. A model trained on stale data produces stale answers. Quarterly refresh ensures evaluation and training stay current with the regulatory landscape.
+
+**Using assets after their expiration date produces incomplete evaluations and outdated model behavior.**
+
+---
 
 Quick start with Ollama:
+
 ```bash
 # Download and run the 12B model
 ollama run memoriant/cmmc-expert-12b
@@ -94,6 +184,8 @@ curl http://localhost:11434/v1/chat/completions \
     "messages": [{"role": "user", "content": "What are the access control requirements for CMMC Level 2?"}]
   }'
 ```
+
+**Remember:** Always review AI output before using it for compliance work. See the AI Safety Disclaimer at the top of this document.
 
 ---
 
