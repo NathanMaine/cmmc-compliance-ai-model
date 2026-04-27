@@ -2,13 +2,13 @@
 
 **A locally-hosted, fine-tuned language model specialized in CMMC 2.0, NIST 800-171, NIST 800-53, HIPAA, DFARS, and cybersecurity compliance frameworks.**
 
-> **Notice:** Research models are provided for evaluation purposes only. The Gemma 4 31B flagship is not publicly available — enterprise deployment runs through the Memoriant Platform. For commercial licensing, pilot programs, or partnership inquiries, contact [Nathan Maine](mailto:nmaine@gmail.com) or visit [memoriant.ai](https://memoriant.ai).
+> **Notice:** Research artifacts published for evaluation. The Gemma 4 31B flagship is private; the public PoC variant is on HuggingFace under Apache 2.0. See model card for capabilities and limitations. Contact: [nmaine@gmail.com](mailto:nmaine@gmail.com).
 
 Built to answer the question: *Can a small team deploy a domain-specific AI compliance advisor that runs entirely on-premises — no cloud, no API fees, no CUI exposure?*
 
 **Yes. Multiple model sizes from 4B edge models to 31B flagship — laptop to workstation to air-gapped appliance.**
 
-> **Current release:** Q2 2026 — Gemma 4 31B flagship (private, enterprise-only, eval loss 0.4517). Two public Nemotron specialized models launching Q2 2026 (lookup specialist + POA&M generator). All Memoriant datasets and benchmarks refreshed quarterly. Published under [Memoriant, Inc.](https://huggingface.co/memoriant) organization.
+> **Current release:** Q2 2026 includes the Gemma 4 31B flagship (private, eval loss 0.4517) and the public PoC variant. Two NVIDIA Nemotron 3 Nano specialized models in training for Q2 2026 release: a 4B lookup specialist and a 30B MoE POA&M generator. Datasets and benchmarks refreshed quarterly. Models published on the [memoriant](https://huggingface.co/memoriant) HuggingFace organization.
 
 ---
 
@@ -24,11 +24,11 @@ Commercial LLMs (GPT-4, Claude) are powerful but introduce data residency concer
 
 **AI systems make mistakes. Always review AI-generated output before using it for any purpose.**
 
-Any AI system — including those trained on the Memoriant datasets — can produce factually incorrect information, hallucinated citations, outdated guidance, or plausible-sounding fabrications. **Never submit AI output directly** to DoD assessors, regulatory agencies, or formal compliance documentation without qualified human review.
+Any AI system — including these compliance-tuned variants — can produce factually incorrect information, hallucinated citations, outdated guidance, or plausible-sounding fabrications. **Never submit AI output directly** to DoD assessors, regulatory agencies, or formal compliance documentation without qualified human review.
 
 **This is especially critical for CMMC and defense compliance.** Wrong answers can cause failed assessments. Failed assessments can cost DoD contracts. C3PAO assessors verify human understanding, not AI output. The DoD holds contractors accountable for their submissions, not the tools they used.
 
-**Memoriant's position:** AI is a force multiplier for compliance professionals, not a replacement. The human stays accountable. The AI accelerates the work. Every output is a draft for human review.
+**Position:** AI is a force multiplier for compliance professionals, not a replacement. The human stays accountable. The AI accelerates the work. Every output is a draft for human review.
 
 ---
 
@@ -36,7 +36,7 @@ Any AI system — including those trained on the Memoriant datasets — can prod
 
 ### Version 3.0 — Flagship & Legacy (Q2 2026)
 
-Models trained across multiple base architectures on the v6.0 dataset (18,202 curated examples). Published under [Memoriant, Inc.](https://huggingface.co/memoriant) organization.
+Models trained across multiple base architectures on the v6.0 dataset (18,202 curated examples). Published on the [memoriant](https://huggingface.co/memoriant) HuggingFace organization.
 
 **Flagship (private — enterprise deployment only):**
 
@@ -45,9 +45,7 @@ Models trained across multiple base architectures on the v6.0 dataset (18,202 cu
 | **cmmc-expert-gemma4-31b** | Gemma 4 31B | 31B | **0.4517** | 20 GB | 48 GB+ VRAM or NVIDIA DGX |
 | **cmmc-expert-gemma4-31b-it** | Gemma 4 31B IT | 31B | 0.5176 | 20 GB | 48 GB+ VRAM or NVIDIA DGX |
 
-The Gemma 4 31B flagship is the best-performing compliance AI model Memoriant has trained. It is **not publicly available** — the weights remain private as product IP. Enterprise deployment through the Memoriant Platform includes the flagship model, RAG with 30+ authoritative government documents, governed LLM gateway with audit trails, and quarterly regulatory updates.
-
-Contact [Memoriant, Inc.](https://memoriant.ai) for enterprise licensing.
+The Gemma 4 31B flagship is the best-performing model in this research progression. It is **not publicly available** — the weights remain private. Public access is through the PoC variant linked in the model table below, which was benchmarked against 15 models on 1,273 CMMC compliance questions and tied with Claude Opus 4.6 for #1 on CMMC claim verification, running fully air-gapped on a single NVIDIA DGX Spark.
 
 **Research Models (earlier training experiments):**
 
@@ -62,7 +60,7 @@ Contact [Memoriant, Inc.](https://memoriant.ai) for enterprise licensing.
 
 ### Coming Q2 2026 — Public Nemotron Specialized Models
 
-Two specialized models trained on NVIDIA Nemotron 3 base architectures. Published publicly under `memoriant/` on HuggingFace under the NVIDIA Nemotron Open Model License. Each model is **highly specialized** — excellent at one specific task rather than mediocre at many.
+Two specialized models trained on NVIDIA Nemotron 3 base architectures. Published under `memoriant/` on HuggingFace under the NVIDIA Nemotron Open Model License. Each model is highly specialized: excellent at one specific task rather than mediocre at many.
 
 | Model | Base | Specialty | Parameters | Expected Eval Loss | Hardware Required | Status |
 |-------|------|-----------|-----------|---------------------|-------------------|--------|
@@ -106,13 +104,7 @@ Fine-tuned for remediation planning — POA&M and SSP drafting. 30B total parame
 - Provide C3PAO-specific assessment guidance
 - RAG-grounded responses with source citations
 
-*Tagline:* "Generate POA&M entries and SSP drafts in seconds. Human review required. 100x cheaper than a consultant."
-
-**Upgrade Path:**
-
-1. **Free — Lookup Specialist (4B)** → Learn CMMC basics, reference tool
-2. **Free — POA&M Generator (30B)** → Draft compliance documentation
-3. **Enterprise — Memoriant Platform** → Full flagship model + RAG + audit trails + monthly updates
+*Tagline:* "Generate POA&M entries and SSP drafts in seconds. Human review required."
 
 Both Nemotron models will be published under the NVIDIA Nemotron Open Model License (commercial-friendly, no layered licensing).
 
@@ -126,9 +118,9 @@ Both Nemotron models will be published under the NVIDIA Nemotron Open Model Lice
 
 ## Download
 
-### Memoriant Organization (Q2 2026 Release)
+### HuggingFace Releases (Q2 2026)
 
-All Memoriant assets are now on a quarterly versioning cadence with auto-gated access (login required, auto-approved). Each release is dated and expires at quarter end — new versions incorporate regulatory updates, DFARS amendments, and NIST revisions.
+All releases are on a quarterly versioning cadence with auto-gated access (login required, auto-approved). Each release is dated and expires at quarter end — new versions incorporate regulatory updates, DFARS amendments, and NIST revisions.
 
 **Training Data:**
 
@@ -154,11 +146,11 @@ All Memoriant assets are now on a quarterly versioning cadence with auto-gated a
 | **CMMC Expert Nemotron 3 Nano 4B** | `memoriant/cmmc-expert-nemotron-3-nano-4b` | Model (GGUF) | Coming Q2 2026 |
 | **CMMC Expert Nemotron 3 Nano 30B** | `memoriant/cmmc-expert-nemotron-3-nano-30b` | Model (GGUF) | Coming Q2 2026 |
 
-The flagship Gemma 4 31B is **not publicly available** — enterprise deployment only through the Memoriant Platform. Contact [Memoriant, Inc.](https://memoriant.ai) for licensing.
+The flagship Gemma 4 31B is **not publicly available** — the weights remain private. The PoC variant on HuggingFace is the public access point.
 
 ### ⚠️ Quarterly Refresh Cycle
 
-All Memoriant datasets and models follow a quarterly release cadence:
+All datasets and models follow a quarterly release cadence:
 
 - **Q2 2026** (current) — Valid through June 30, 2026
 - **Q3 2026** — Releases July 1, 2026
@@ -522,7 +514,7 @@ cmmc-compliance-ai-model/
     └── github-releases/         # GitHub Release creation script
 ```
 
-> **Note:** This repo contains the pipeline code, training configuration, and documentation. Pre-trained model weights (GGUF) are available on [Hugging Face](https://huggingface.co/Nathan-Maine). Training data and checkpoints are excluded from the repository.
+> **Note:** This repo contains the pipeline code, training configuration, and documentation. Pre-trained model weights (GGUF) are available on [Hugging Face](https://huggingface.co/memoriant). Training data and checkpoints are excluded from the repository.
 
 ---
 
@@ -533,7 +525,7 @@ cmmc-compliance-ai-model/
 - [x] v3.0 - Base model migration to US-origin architectures (Gemma, Llama, Phi, OLMo, Granite)
 - [x] v3.0 - 13 models trained across 8 architectures on NVIDIA B200 and DGX Spark
 - [x] v3.0 - Flagship: Gemma 4 31B (eval loss 0.4517, day-zero fine-tuning)
-- [x] v3.0 - Published under Memoriant, Inc. HuggingFace organization
+- [x] v3.0 - Published under memoriant HuggingFace organization
 - [x] v3.0 - Standardized compliance benchmark (46 questions, 9 tiers) published
 - [x] v3.0 - CMMC Expert Platform v08 (orchestrator + gateway + RAG + PII + audit trails)
 - [x] v3.0 - Open source contributions: huggingface/peft#3129, huggingface/transformers#45200
@@ -558,7 +550,7 @@ cmmc-compliance-ai-model/
 - **Data Pipeline**: [cmmc-data-pipeline](https://github.com/NathanMaine/cmmc-data-pipeline) -- 8 automated scrapers, MinHash dedup, 5-phase pipeline
 - **Data Sources**: NIST OSCAL, eCFR API, Federal Register API, CISA KEV, CIS Controls, DoD PDFs, FedRAMP
 - **Training Hardware**: NVIDIA B200 192GB ([RunPod](https://www.runpod.io)), NVIDIA DGX Spark GB10 128GB (on-premises)
-- **Organization**: [Memoriant, Inc.](https://huggingface.co/memoriant) on HuggingFace
+- **Organization**: [memoriant](https://huggingface.co/memoriant) on HuggingFace
 
 ---
 
@@ -627,4 +619,4 @@ All training data is derived from publicly available, authoritative government s
 
 ---
 
-**Built by [Nathan Maine](https://nathanmaine.com)** — Solving compliance bottlenecks with purpose-built AI.
+**Built by Nathan Maine** — Solving compliance bottlenecks with purpose-built AI.
