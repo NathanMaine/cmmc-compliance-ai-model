@@ -45,7 +45,9 @@ Models trained across multiple base architectures on the v6.0 dataset (18,202 cu
 | **cmmc-expert-gemma4-31b** | Gemma 4 31B | 31B | **0.4517** | 20 GB | 48 GB+ VRAM or NVIDIA DGX |
 | **cmmc-expert-gemma4-31b-it** | Gemma 4 31B IT | 31B | 0.5176 | 20 GB | 48 GB+ VRAM or NVIDIA DGX |
 
-The Gemma 4 31B flagship is the best-performing model in this research progression. It is **not publicly available** — the weights remain private. Public access is through the PoC variant linked in the model table below, which was benchmarked against 15 models on 1,273 CMMC compliance questions and tied with Claude Opus 4.6 for #1 on CMMC claim verification, running fully air-gapped on a single NVIDIA DGX Spark.
+The Gemma 4 31B flagship is the best-performing fine-tune in this research progression. It is **not publicly available** — the weights remain private. Public access is through the PoC variant linked in the model table below, intended as a hands-on research artifact runnable fully air-gapped on a single NVIDIA DGX Spark.
+
+In a Q2 2026 internal evaluation across 16 systems on a 105-question subset of the v3 benchmark (tiers T10/T11/T12), the **Memoriant system**, a retrieval-augmented configuration pairing Gemma 2 27B with the Memoriant Ground retrieval layer, edged Claude Opus 4.6 on the overall average (0.266 vs 0.261). The fine-tuned models in this repository are research artifacts, not the production retrieval system. *Results are single-judge and pre-calibration; see internal scorecard for caveats.*
 
 **Research Models (earlier training experiments):**
 
