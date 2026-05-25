@@ -47,7 +47,7 @@ Models trained across multiple base architectures on the v6.0 dataset (18,202 cu
 
 The Gemma 4 31B flagship is the best-performing fine-tune in this research progression. It is **not publicly available** — the weights remain private. Public access is through the PoC variant linked in the model table below, intended as a hands-on research artifact runnable fully air-gapped on a single NVIDIA DGX Spark.
 
-In a Q2 2026 internal evaluation across 16 systems on a 105-question subset of the v3 benchmark (tiers T10/T11/T12), the **Memoriant system**, a retrieval-augmented configuration pairing Gemma 2 27B with the Memoriant Ground retrieval layer, edged Claude Opus 4.6 on the overall average (0.266 vs 0.261). The fine-tuned models in this repository are research artifacts, not the production retrieval system. *Results are single-judge and pre-calibration; see internal scorecard for caveats.*
+Models were run against the full 1,273-question v3 benchmark (15 tiers). The competitive leaderboard against frontier models was scored on the 105-question T10/T11/T12 subset where retrieval-grounded judge grading was complete. The **Memoriant retrieval system** (Gemma 2 27B + Memoriant Ground) edged Claude Opus 4.6 on the overall average (0.266 vs 0.261). Single-judge, pre-calibration.
 
 **Research Models (earlier training experiments):**
 
