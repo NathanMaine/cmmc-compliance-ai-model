@@ -112,7 +112,7 @@ Both Nemotron models will be published under the NVIDIA Nemotron Open Model Lice
 
 ---
 
-**Training Method:** QLoRA fine-tuning (4-bit NF4, rank 64, alpha 128) on NVIDIA B200, H200, and DGX Spark hardware
+**Training Method:** QLoRA fine-tuning (4-bit NF4, rank 64, alpha 128) on NVIDIA A100, H200, and DGX Spark hardware
 
 **Runtime:** [Ollama](https://ollama.ai) (OpenAI-compatible API at `localhost:11434/v1`) or [llama.cpp](https://github.com/ggerganov/llama.cpp) (6.5x faster for serving)
 
@@ -525,7 +525,7 @@ cmmc-compliance-ai-model/
 - [x] v1.0 - 4 models (7B-72B) trained on Qwen2.5, published on HuggingFace
 - [x] v2.0 - Automated scraping pipeline, expanded to 18,747 examples from 11 sources
 - [x] v3.0 - Base model migration to US-origin architectures (Gemma, Llama, Phi, OLMo, Granite)
-- [x] v3.0 - 13 models trained across 8 architectures on NVIDIA B200 and DGX Spark
+- [x] v3.0 - 13 models trained across 8 architectures on NVIDIA A100, H200, and DGX Spark
 - [x] v3.0 - Flagship: Gemma 4 31B (eval loss 0.4517, day-zero fine-tuning)
 - [x] v3.0 - Published under memoriant HuggingFace organization
 - [x] v3.0 - Standardized compliance benchmark (46 questions, 9 tiers) published
@@ -551,7 +551,7 @@ cmmc-compliance-ai-model/
 - **Platform**: Custom orchestrator + [governed-llm-gateway](https://github.com/NathanMaine/governed-llm-gateway) -- Auth, PII, policy, audit
 - **Data Pipeline**: [cmmc-data-pipeline](https://github.com/NathanMaine/cmmc-data-pipeline) -- 8 automated scrapers, MinHash dedup, 5-phase pipeline
 - **Data Sources**: NIST OSCAL, eCFR API, Federal Register API, CISA KEV, CIS Controls, DoD PDFs, FedRAMP
-- **Training Hardware**: NVIDIA B200 192GB ([RunPod](https://www.runpod.io)), NVIDIA DGX Spark GB10 128GB (on-premises)
+- **Training Hardware**: NVIDIA A100 80GB and H200 ([RunPod](https://www.runpod.io)), NVIDIA DGX Spark GB10 128GB (on-premises)
 - **Organization**: [memoriant](https://huggingface.co/memoriant) on HuggingFace
 
 ---
