@@ -8,7 +8,7 @@ Built to answer the question: *Can a small team deploy a domain-specific AI comp
 
 **Yes. Multiple model sizes from 4B edge models to 31B flagship — laptop to workstation to air-gapped appliance.**
 
-> **Current release:** Q2 2026 includes the Gemma 4 31B flagship (private, eval loss 0.4517) and the public PoC variant. Two NVIDIA Nemotron 3 Nano specialized models in training for Q2 2026 release: a 4B lookup specialist and a 30B MoE POA&M generator. Datasets and benchmarks refreshed quarterly. Models published on the [memoriant](https://huggingface.co/memoriant) HuggingFace organization.
+> **Current release:** Q2 2026 includes the Gemma 4 31B flagship (private, eval loss 0.4517) and the public PoC variant. Two NVIDIA Nemotron 3 Nano specialized models in training for Q2 2026 release: a 4B lookup specialist and a 30B MoE POA&M generator. Datasets and benchmarks refreshed quarterly. Models published on the [memoriant](https://huggingface.co/memoriant) HuggingFace organization (public variants at [huggingface.co/Nathan-Maine](https://huggingface.co/Nathan-Maine)).
 
 ---
 
@@ -36,7 +36,7 @@ Any AI system — including these compliance-tuned variants — can produce fact
 
 ### Version 3.0 — Flagship & Legacy (Q2 2026)
 
-Models trained across multiple base architectures on the v6.0 dataset (18,202 curated examples). Published on the [memoriant](https://huggingface.co/memoriant) HuggingFace organization.
+Models trained across multiple base architectures on the v6.0 dataset (18,202 curated examples). Published on the [memoriant](https://huggingface.co/memoriant) HuggingFace organization (public variants at [huggingface.co/Nathan-Maine](https://huggingface.co/Nathan-Maine)).
 
 **Flagship (private — enterprise deployment only):**
 
@@ -144,7 +144,7 @@ All releases are on a quarterly versioning cadence with auto-gated access (login
 
 | Resource | HuggingFace | Type | Status |
 |----------|------------|------|--------|
-| **CMMC Expert 12B** | [memoriant/cmmc-expert-12b](https://huggingface.co/memoriant/cmmc-expert-12b) | Model (GGUF) | Available (gated) |
+| **CMMC Expert 12B** | [memoriant/cmmc-expert-12b](https://huggingface.co/memoriant/cmmc-expert-12b) ([mirror](https://huggingface.co/Nathan-Maine/cmmc-expert-12b)) | Model (GGUF) | Available (gated) |
 | **CMMC Expert Nemotron 3 Nano 4B** | `memoriant/cmmc-expert-nemotron-3-nano-4b` | Model (GGUF) | Coming Q2 2026 |
 | **CMMC Expert Nemotron 3 Nano 30B** | `memoriant/cmmc-expert-nemotron-3-nano-30b` | Model (GGUF) | Coming Q2 2026 |
 
@@ -516,7 +516,7 @@ cmmc-compliance-ai-model/
     └── github-releases/         # GitHub Release creation script
 ```
 
-> **Note:** This repo contains the pipeline code, training configuration, and documentation. Pre-trained model weights (GGUF) are available on [Hugging Face](https://huggingface.co/memoriant). Training data and checkpoints are excluded from the repository.
+> **Note:** This repo contains the pipeline code, training configuration, and documentation. Pre-trained model weights (GGUF) are available on [Hugging Face](https://huggingface.co/memoriant) (public variants at [huggingface.co/Nathan-Maine](https://huggingface.co/Nathan-Maine)). Training data and checkpoints are excluded from the repository.
 
 ---
 
@@ -552,7 +552,7 @@ cmmc-compliance-ai-model/
 - **Data Pipeline**: [cmmc-data-pipeline](https://github.com/NathanMaine/cmmc-data-pipeline) -- 8 automated scrapers, MinHash dedup, 5-phase pipeline
 - **Data Sources**: NIST OSCAL, eCFR API, Federal Register API, CISA KEV, CIS Controls, DoD PDFs, FedRAMP
 - **Training Hardware**: NVIDIA A100 80GB and B200 ([RunPod](https://www.runpod.io)), NVIDIA DGX Spark GB10 128GB (on-premises)
-- **Organization**: [memoriant](https://huggingface.co/memoriant) on HuggingFace
+- **Organization**: [memoriant](https://huggingface.co/memoriant) on HuggingFace (public variants at [huggingface.co/Nathan-Maine](https://huggingface.co/Nathan-Maine))
 
 ---
 
